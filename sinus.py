@@ -5,6 +5,6 @@ def drawSinus():
         angle_in_rad = math.radians ( angle_in_deg )
         sinus = math.sin ( angle_in_rad )
         odskok = round ( 38 + 37 * sinus )
-        print ( ' ' * odskok + 'SINUS')
+        print ( ' ' * odskok + 'S')
 
 drawSinus()
