@@ -4,26 +4,63 @@ import tkinter as tk
 from unicodedata import name
 from tkinter import messagebox
 
+
+
+class Vodic: 
+    def __init__(self, D, RAC20, dFE, prierez, pomer, E, rdc20, t_d):
+        self.D = D
+        self.RAC20 = RAC20
+        self.dFE = dFE
+        self.prierez = prierez
+        self.pomer = pomer
+        self.E = E
+        self.rdc20 = rdc20
+        self.t_d = t_d
+
+class XY: 
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+class Stoziar: 
+    def __init__(self, l1, l2, l3, zl1, zl2):
+        self.l1 = l1
+        self.l2 = l2
+        self.l3 = l3
+        self.zl1 = zl1
+        self.zl2 = zl2
+
+def konkretna_pocitacia_metoda():
+    pass
+
+def vypocitaj_pressed():
+    #opracovavania
+    ##bla bla
+    konkretna_pocitacia_metoda()
+    ##bla bla
+
+
 #definicie vypoctovych map
 
-stožiar = {
-    "Kotevný"               :   [[-12,18.799],[0,18.799],[12,18.799],[-6,31.789],[6,31.789]],
-    "Kotevný rozkročený"    :   [[1,2],[3,4],[5,6],[7,8],[9,10]]
+stoziare = {
+    "Kotevný"               : Stoziar(XY(-12, 18.799), XY(0, 18.799), XY(12, 18.799), XY(-6, 31.789), XY(6, 31.789)),
+    "Kotevný rozkročený"    : Stoziar(XY(-12, 18.799), XY(0, 18.799), XY(12, 18.799), XY(-6, 31.789), XY(6, 31.789)),
 
 }
 
-vodič = {
-    "185  AlFe 3"           :[],
-    "185  AlFe 6"           :[],
-    "185  AlFe 3"           :[],
-    "240  AlFe 6"           :[],
-    "350  AlFe 4"           :[],
-    "350  AlFe 6"           :[],
-    "450  AlFe 6"           :[],
-    "450  AlFe 8"           :[],
-    "500  AlFe 8"           :[],
-    "670  AlFe 8"           :[],
+vodice = {
+    "185  AlFe 3"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "185  AlFe 6"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "185  AlFe 3"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "240  AlFe 6"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "350  AlFe 4"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "350  AlFe 6"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "450  AlFe 6"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "450  AlFe 8"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "500  AlFe 8"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "670  AlFe 8"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
 }
+
 
 # definícia okna
 
@@ -52,15 +89,15 @@ labelTop.grid(column=0, row=7)
 
 
 
-stožiarcombo = ttk.Combobox(frm, state="readonly", values=list(stožiar.keys()))        
+stožiarcombo = ttk.Combobox(frm, state="readonly", values=list(stoziare.keys()))        
 stožiarcombo.grid(column=2, row=0)
 
 
-fvodičcombo = ttk.Combobox(frm, state="readonly", values=list(vodič.keys()))
+fvodičcombo = ttk.Combobox(frm, state="readonly", values=list(vodice.keys()))
 fvodičcombo.grid(column=2, row=1)
 
 
-zlvodičcombo = ttk.Combobox(frm, state="readonly", values=list(vodič.keys()))
+zlvodičcombo = ttk.Combobox(frm, state="readonly", values=list(vodice.keys()))
 zlvodičcombo.grid(column=2, row=2)
 
 pocetsystemcombo = ttk.Combobox(frm, state="readonly", values=["1","2","3","4"])
@@ -79,7 +116,7 @@ metoda.grid(column=2, row=6)
 zvazok = ttk.Combobox(frm, values=["1","2","3","4"])
 zvazok.grid(column=2, row=7)
 
-vypocitaj = ttk.Button(text="Vypočítaj",).grid()
+vypocitaj = ttk.Button(text="Vypočítaj", command=vypocitaj_pressed).grid()
 
 def debug_pressed():
     messagebox.showinfo("debug", stožiarcombo["values"])
