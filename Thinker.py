@@ -3,27 +3,83 @@ from tkinter import ttk
 import tkinter as tk
 from unicodedata import name
 from tkinter import messagebox
+import math
+
+
+
+class Vodic: 
+    def __init__(self, D, RAC20, dFE, prierez, pomer, E, rdc20, t_d):
+        self.D = D
+        self.RAC20 = RAC20
+        self.dFE = dFE
+        self.prierez = prierez
+        self.pomer = pomer
+        self.E = E
+        self.rdc20 = rdc20
+        self.t_d = t_d
+
+class XY: 
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    @staticmethod
+    def vzdialenost(b1, b2): #b1 a b2 su dva body typu XY
+        return math.sqrt((b1.x-b2.x)**2 + (b1.y-b2.y)**2)
+
+    def vzdialenost(self, bod):
+        return math.sqrt((self.x-bod.x)**2 + (self.y-bod.y)**2)
+
+
+class Stoziar: 
+    def __init__(self, a:XY, b:XY, c:XY, z1:XY, z2:XY):
+        self.a = a
+        self.b = b
+        self.c = c
+        self.z1 = z1
+        self.z2 = z2
+
+        """self.ab = XY.vzdialenost(a, b)
+        self.ac = XY.vzdialenost(a, c)
+        self.bc = b.vzdialenost(c)
+        self.az1 = XY.vzdialenost(a, z1)
+        self.az2 = XY.vzdialenost(a, z2)
+        self.bz1 = XY.vzdialenost(b, z1)
+        self.bz2 = XY.vzdialenost(b, z2)
+        self.cz1 = XY.vzdialenost(c, z1)
+        self.cz2 = XY.vzdialenost(c, z2) """
+
+        self.m_vzd = [[0, XY.vzdialenost(a, b), XY.vzdialenost(a, c), XY.vzdialenost(a, z1), XY.vzdialenost(a, z2)],
+            [XY.vzdialenost(b, a), 0, XY.vzdialenost(b, c), XY.vzdialenost(b, z1), XY.vzdialenost(b, z2)],
+            [XY.vzdialenost(c, a), XY.vzdialenost(c, b), 0, XY.vzdialenost(c, z1), XY.vzdialenost(c, z2)],
+            [XY.vzdialenost(z1,a), XY.vzdialenost(z1,b), XY.vzdialenost(z1,c),0, XY.vzdialenost(z1, z2)], 
+            [XY.vzdialenost(z2,a), XY.vzdialenost(z2,b), XY.vzdialenost(z2,c), XY.vzdialenost(z2,z1),0]]
+
+
+
+
 
 #definicie vypoctovych map
 
-stožiar = {
-    "Kotevný"               :   [[-12,18.799],[0,18.799],[12,18.799],[-6,31.789],[6,31.789]],
-    "Kotevný rozkročený"    :   [[1,2],[3,4],[5,6],[7,8],[9,10]]
+stoziare = {
+    "Kotevný"               : Stoziar(XY(-12, 18.799), XY(0, 18.799), XY(12, 18.799), XY(-6, 31.789), XY(6, 31.789)),
+    "Kotevný rozkročený"    : Stoziar(XY(-12, 18.799), XY(0, 18.799), XY(12, 18.799), XY(-6, 31.789), XY(6, 31.789)),
 
 }
 
-vodič = {
-    "185  AlFe 3"           :[],
-    "185  AlFe 6"           :[],
-    "185  AlFe 3"           :[],
-    "240  AlFe 6"           :[],
-    "350  AlFe 4"           :[],
-    "350  AlFe 6"           :[],
-    "450  AlFe 6"           :[],
-    "450  AlFe 8"           :[],
-    "500  AlFe 8"           :[],
-    "670  AlFe 8"           :[],
+vodice = {
+    "185  AlFe 3"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "185  AlFe 6"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "185  AlFe 3"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "240  AlFe 6"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "350  AlFe 4"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "350  AlFe 6"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "450  AlFe 6"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "450  AlFe 8"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "500  AlFe 8"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "670  AlFe 8"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
 }
+
 
 # definícia okna
 
@@ -52,19 +108,19 @@ labelTop.grid(column=0, row=7)
 
 
 
-stožiarcombo = ttk.Combobox(frm, state="readonly", values=list(stožiar.keys()))        
-stožiarcombo.grid(column=2, row=0)
+stoziarCombo = ttk.Combobox(frm, state="readonly", values=list(stoziare.keys()))        
+stoziarCombo.grid(column=2, row=0)
 
 
-fvodičcombo = ttk.Combobox(frm, state="readonly", values=list(vodič.keys()))
-fvodičcombo.grid(column=2, row=1)
+fvodicCombo = ttk.Combobox(frm, state="readonly", values=list(vodice.keys()))
+fvodicCombo.grid(column=2, row=1)
 
 
-zlvodičcombo = ttk.Combobox(frm, state="readonly", values=list(vodič.keys()))
-zlvodičcombo.grid(column=2, row=2)
+zlvodicCombo = ttk.Combobox(frm, state="readonly", values=list(vodice.keys()))
+zlvodicCombo.grid(column=2, row=2)
 
-pocetsystemcombo = ttk.Combobox(frm, state="readonly", values=["1","2","3","4"])
-pocetsystemcombo.grid(column=2, row=3)
+pocetSystemCombo = ttk.Combobox(frm, state="readonly", values=["1","2","3","4"])
+pocetSystemCombo.grid(column=2, row=3)
 
 
 minvyska = ttk.Combobox(frm)
@@ -73,16 +129,48 @@ minvyska.grid(column=2, row=4)
 cronoredukcia = ttk.Combobox(frm, state="readonly", values=["áno","nie"])
 cronoredukcia.grid(column=2, row=5)
 
-metoda = ttk.Combobox(frm, values=["Metóda komlexnej hlbky","Metóda Alvardo","Metóda 3",])
-metoda.grid(column=2, row=6)
+metodaCombo = ttk.Combobox(frm, values=["Metóda komlexnej hlbky","Metóda Alvardo","Metóda 3", "Aproximovana",])
+metodaCombo.grid(column=2, row=6)
 
-zvazok = ttk.Combobox(frm, values=["1","2","3","4"])
-zvazok.grid(column=2, row=7)
+zvazokCombo = ttk.Combobox(frm, values=["1","2","3","4"])
+zvazokCombo.grid(column=2, row=7)
 
-vypocitaj = ttk.Button(text="Vypočítaj",).grid()
+def aproximovana_metoda():
+    fvodic = vodice[fvodicCombo.get()]
+    stoziar = stoziare[stoziarCombo.get()]
+    
+    E = fvodic.E
+    Rg = 49.3   #[mΩ.m−1]
+    mi0 = 1.25663706212E-6 #[H/m]
+    dg = 796.039 #[m]
+    Zik = Rik + jωLik
+    Rik = Rg    #[Ω/km]
+    Rii = fvodic.RAC20 + Rg
+
+    L = [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]
+    R = [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]
+    Z = [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]
+
+    for i in range(5):
+        for k in range(5):
+            if i==k:
+                L[i][k] = (mi0/2*math.pi) * math.ln(dg/E)   #zistit ci treba r
+            else: 
+                L[i][k] = (mi0/2*math.pi) * math.ln(dg/stoziar.m_vzd[i][k])
+
+def vypocitaj_pressed():
+
+    if metodaCombo.get() == "Aproximovana":
+        aproximovana_metoda()
+    
+    #opracovavania
+    ##bla bla
+
+
+vypocitaj = ttk.Button(text="Vypočítaj", command=vypocitaj_pressed).grid()
 
 def debug_pressed():
-    messagebox.showinfo("debug", stožiarcombo["values"])
+    messagebox.showinfo("debug", stoziarCombo["values"])
 
 debug = ttk.Button(text="Debug", command=debug_pressed).grid()
 root.mainloop()
