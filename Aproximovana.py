@@ -4,7 +4,7 @@ import tkinter as tk
 from unicodedata import name
 from tkinter import messagebox
 import math
-
+import cmath
 
 
 class Vodic: 
@@ -27,8 +27,7 @@ class XY:
     def vzdialenost(b1, b2): #b1 a b2 su dva body typu XY
         return math.sqrt((b1.x-b2.x)**2 + (b1.y-b2.y)**2)
 
-    def vzdialenost(self, bod):
-        return math.sqrt((self.x-bod.x)**2 + (self.y-bod.y)**2)
+   
 
 
 class Stoziar: 
@@ -39,15 +38,7 @@ class Stoziar:
         self.z1 = z1
         self.z2 = z2
 
-        """self.ab = XY.vzdialenost(a, b)
-        self.ac = XY.vzdialenost(a, c)
-        self.bc = b.vzdialenost(c)
-        self.az1 = XY.vzdialenost(a, z1)
-        self.az2 = XY.vzdialenost(a, z2)
-        self.bz1 = XY.vzdialenost(b, z1)
-        self.bz2 = XY.vzdialenost(b, z2)
-        self.cz1 = XY.vzdialenost(c, z1)
-        self.cz2 = XY.vzdialenost(c, z2) """
+        
 
         self.m_vzd = [[0, XY.vzdialenost(a, b), XY.vzdialenost(a, c), XY.vzdialenost(a, z1), XY.vzdialenost(a, z2)],
             [XY.vzdialenost(b, a), 0, XY.vzdialenost(b, c), XY.vzdialenost(b, z1), XY.vzdialenost(b, z2)],
@@ -86,29 +77,23 @@ vodice = {
 root = Tk()
 root.geometry()
 root.title("Výpočet parametrov vedení")
-#root2 = Tk()                             #Druhý rámík
+
 frm = ttk.Frame(root, padding=10)
-#frm2 = ttk.Frame(root2, padding=10)
+
 
 frm.grid(row=0)
-#frm2.grid(row=1)
+
 
 
 ttk.Label(frm, text="Typ stožiara").grid(column=0, row=0)
 ttk.Label(frm, text="Typ fázového vodiča").grid(column=0, row=1)
 ttk.Label(frm, text="Typ vodiča zemného lana").grid(column=0, row=2)
-# ttk.Label(frm, text="Počet systémov").grid(column=0, row=3)
-# ttk.Label(frm, text="Minimálna výška vodiča (m)").grid(column=0, row=4)
-# ttk.Label(frm, text="Kronova redukcia").grid(column=0, row=5)
-# ttk.Label(frm, text="Metóda výpočtu").grid(column=0, row=6)
-# labelTop = tk.Label(frm, text = "Počet vodičov vo zväzku")
-# labelTop.grid(column=0, row=7)
 
 
 
 
 
-stoziarCombo = ttk.Combobox(frm, state="readonly", values=list(stoziare.keys()))        
+stoziarCombo = ttk.Combobox(frm, values=list(stoziare))        
 stoziarCombo.grid(column=2, row=0)
 
 
@@ -119,29 +104,6 @@ fvodicCombo.grid(column=2, row=1)
 zlvodicCombo = ttk.Combobox(frm, state="readonly", values=list(vodice.keys()))
 zlvodicCombo.grid(column=2, row=2)
 
-# pocetSystemCombo = ttk.Combobox(frm, state="readonly", values=["1","2","3","4"])
-# pocetSystemCombo.grid(column=2, row=3)
-
-
-# minvyska = ttk.Combobox(frm)
-# minvyska.grid(column=2, row=4)
-
-# cronoredukcia = ttk.Combobox(frm, state="readonly", values=["áno","nie"])
-# cronoredukcia.grid(column=2, row=5)
-
-# metodaCombo = ttk.Combobox(frm, values=["Metóda komlexnej hlbky","Metóda Alvardo","Metóda 3", "Aproximovana",])
-# metodaCombo.grid(column=2, row=6)
-
-# zvazokCombo = ttk.Combobox(frm, values=["1","2","3","4"])
-# zvazokCombo.grid(column=2, row=7)
-
-# def matica3():
-
-#     for i in range(3):
-#         for k in range(3):
-#             if i==k
-
-# def matica5():            
 
 def aproximovana_metoda():
     fvodic = vodice[fvodicCombo.get()]
@@ -155,38 +117,33 @@ def aproximovana_metoda():
     r = D/2
     f = 50 #Hz
     ω = 2*math.pi*f
-    Lik = (mi0/2*math.pi) * math.ln(dg/stoziar.m_vzd[i][k])
-    Lii = (mi0/2*math.pi)*math.ln(dg/E*r)
+    
+    
     Rik = Rg    #[Ω/km]
     Rii = fvodic.RAC20 + Rg
-    Zik = Rik + j**Lik
+    #Zik = Rik + j*ω*Lik
 
 
     L = [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]
     R = [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]
     Z = [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]
 
+    induk = L
+
     for i in range(5):
         for k in range(5):
             if i==k:
-                L[i][k] = (mi0/2*math.pi) * math.ln(dg/E*r)   #zistit ci treba r
+                L[i][k] = (mi0/2*math.pi) * cmath.log10(dg/E*r)   #zistit ci treba r
             else: 
-                L[i][k] = (mi0/2*math.pi) * math.ln(dg/stoziar.m_vzd[i][k])
-
-def vypocitaj_pressed():
-
-    if metodaCombo.get() == "Aproximovana":
-        aproximovana_metoda()
-    
-    #opracovavania
-    ##bla bla
+                L[i][k] = (mi0/2*math.pi) * cmath.log10(dg/stoziar.m_vzd[i][k])
 
 
-vypocitaj = ttk.Button(text="Vypočítaj", command=vypocitaj_pressed).grid()
+
+
+vypocitaj = ttk.Button(text="Vypočítaj", command=aproximovana_metoda).grid()
 
 def debug_pressed():
-    messagebox.showinfo("debug", stoziarCombo["values"])
+    messagebox.showinfo("debug", aproximovana_metoda(induk))
 
 debug = ttk.Button(text="Debug", command=debug_pressed).grid()
 root.mainloop()
-
