@@ -1,5 +1,3 @@
-jojo
-
 import math
 import cmath
 from typing import runtime_checkable
@@ -7,10 +5,6 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 
-def ked_sa_zmeni_vodic():
-    messagebox.showinfo(title=None, message="Nieco sa zmenilo")
-
-print('-----------------------------------------------')
 
 u_0=4*math.pi*pow(10,-7) #permeabilita vakua, Henri/meter
 u_rg=1                    #relet9vna permeabilita zeme, -
@@ -41,59 +35,7 @@ R_ac=0.0888
 
 dim=[[-12,18.799],[0,18.799],[12,18.799],[-6,31.789],[6,31.789]]            #suradnice stoziara, m
 n_k=len(dim)                                                    #pocet vodicov
-
-portaly= {
-    "PORTÁL, kotevný"               :   [[-12,18.799],[0,18.799],[12,18.799],[-6,31.789],[6,31.789]],
-    "PORTÁL, kotevný rozkročený"    :   [[1,2],[3,4],[5,6],[7,8],[9,10]]
-}
-
-#print ( portaly["PORTÁL, kotevný rozkročený"] )
-#print ( portaly.keys() )
-#print ( portaly["PORTÁL, kotevný"] [3][1] )
-
-class Vodic:
-    def __init__(self, D, rac20, priemerfe) -> None:
-        self._D = D
-        self._rac20 = rac20
-        self._priemerfe = priemerfe
-
-    def D(self):
-        return self._D
-    
-    def rac20(self):
-        return self._rac20
-
-    def priemerfe(self):
-        return self._priemerfe
-
-vodice = {
-    "185 AlFe 3": Vodic(20.39, 0.16, 10.5),
-    "185 AlFe 6": Vodic(priemerfe=1, rac20=2, D=3)
-} 
-
-print ( vodice["185 AlFe 3"].priemerfe() )
-
-
-window = tk.Tk()
-
-vodice_popisok = tk.Label ( window, text = "Vodiče", bg='#fff', fg='#f00')
-vodice_popisok.pack()
-
-
-
-current_var = tk.StringVar()
-vodice_combo = ttk.Combobox(window, textvariable=current_var)
-vodice_combo['values'] = tuple(vodice.keys())
-vodice_combo.bind('<<ComboboxSelected>>', ked_sa_zmeni_vodic())
-vodice_combo.pack()
-
-
-window.mainloop()
-
-
-
-
-""" 
+ 
 
 Z=[[0 for i in range (0, n_k)] for j in range (0, n_k)]
 D=[[0 for i in range (0, n_k)] for j in range (0, n_k)]
@@ -120,6 +62,7 @@ for i in range (0,n_k):
     print(D[i])
 print()
 
+print("Matica Di:")
 for i in range (0,n_k):
     print(Di[i])
 print()
@@ -129,4 +72,3 @@ for i in range (0,n_k):
 print()
 
 print('-----------------------------------------------')
-exit() """

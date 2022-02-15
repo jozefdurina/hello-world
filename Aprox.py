@@ -40,13 +40,25 @@ class Stoziar:
         self.z1 = z1
         self.z2 = z2
 
+        self.az = XY(a.x, -a.y)     #az je zrkadlovy obraz fazoveho vodica a
+        self.bz = XY(b.x, -b.y)
+        self.cz = XY(c.x, -c.y)
+        self.z1z = XY(z1.x, -z1.y)
+        self.z2z = XY(z2.x, -z2.y)
+
+        
+
         self.m_vzd = [[0, XY.vzdialenost(a, b), XY.vzdialenost(a, c), XY.vzdialenost(a, z1), XY.vzdialenost(a, z2)],
             [XY.vzdialenost(b, a), 0, XY.vzdialenost(b, c), XY.vzdialenost(b, z1), XY.vzdialenost(b, z2)],
             [XY.vzdialenost(c, a), XY.vzdialenost(c, b), 0, XY.vzdialenost(c, z1), XY.vzdialenost(c, z2)],
             [XY.vzdialenost(z1,a), XY.vzdialenost(z1,b), XY.vzdialenost(z1,c),0, XY.vzdialenost(z1, z2)], 
             [XY.vzdialenost(z2,a), XY.vzdialenost(z2,b), XY.vzdialenost(z2,c), XY.vzdialenost(z2,z1),0]]
 
-
+        self.m_vzd_obrazov = [[0, XY.vzdialenost(a, b), XY.vzdialenost(a, c), XY.vzdialenost(a, z1), XY.vzdialenost(a, z2)],
+            [XY.vzdialenost(b, a), 0, XY.vzdialenost(b, c), XY.vzdialenost(b, z1), XY.vzdialenost(b, z2)],
+            [XY.vzdialenost(c, a), XY.vzdialenost(c, b), 0, XY.vzdialenost(c, z1), XY.vzdialenost(c, z2)],
+            [XY.vzdialenost(z1,a), XY.vzdialenost(z1,b), XY.vzdialenost(z1,c),0, XY.vzdialenost(z1, z2)], 
+            [XY.vzdialenost(z2,a), XY.vzdialenost(z2,b), XY.vzdialenost(z2,c), XY.vzdialenost(z2,z1),0]]
 
 
 
@@ -63,7 +75,7 @@ vodice = {
     "185  AlFe 6"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
     "185  AlFe 3"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
     "240  AlFe 6"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
-    "350  AlFe 4"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
+    "350  AlFe 4"           :Vodic(26.8, 0.0888, 11.8, 414.4, 3.99, 0.8212, 0.0888, 0.279851 ),
     "350  AlFe 6"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
     "450  AlFe 6"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
     "450  AlFe 8"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
@@ -103,10 +115,9 @@ def vypisMatice(M): # M je matica - definovana ako list listov
         print(M[i])    
     # print("\n")    
 
-def aproximovana_metoda():
-    fvodic = vodice[fvodicCombo.get()]
-    stoziar = stoziare[stoziarCombo.get()]
-    
+def aproximovana_metoda(fvodic, stoziar):
+    D = fvodic.D
+    r = D/2
     E = fvodic.E
     Rg = 49300   #[mΩ.km−1]
     mi0 = 1.25663706212E-3 #[H/km]
@@ -122,11 +133,11 @@ def aproximovana_metoda():
     for i in range(5):
         for k in range(5):
             if i==k:
-                L[i][k] = (mi0/2*math.pi) * math.log10(dg/E)   #zistit ci treba r
+                L[i][k] = (mi0/(2*math.pi)) * math.log(dg/(E*r), math.e)   #zistit ci treba r
                 R[i][k] = Rii
                 Z[i][k] = 1
             else: 
-                L[i][k] = (mi0/2*math.pi) * math.log10(dg/stoziar.m_vzd[i][k])
+                L[i][k] = (mi0/(2*math.pi)) * math.log(dg/stoziar.m_vzd[i][k], math.e)
                 R[i][k] = Rik
                 Z[i][k] = 2
 
@@ -159,8 +170,14 @@ def alvardo():
 def carson():
     pass
 
+def aproximovana_metoda_click():
+    #fvodic = vodice[fvodicCombo.get()]
+    #stoziar = stoziare[stoziarCombo.get()]
+    #aproximovana_metoda(fvodic, stoziar)
+    aproximovana_metoda(vodice["350  AlFe 4"] , stoziare["Kotevný"])
 
-vypocitaj = ttk.Button(text="Vypočítaj", command=aproximovana_metoda).grid()
+
+vypocitaj = ttk.Button(text="Vypočítaj", command=aproximovana_metoda_click).grid()
 
 def debug_pressed():
     messagebox.showinfo("debug", stoziarCombo["values"])
