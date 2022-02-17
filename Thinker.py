@@ -5,6 +5,7 @@ from unicodedata import name
 from tkinter import messagebox
 import math
 
+import metoda_komplexnej_hlbky as mkh
 
 
 class Vodic: 
@@ -175,11 +176,15 @@ def aproximovana_metoda():
 
 def vypocitaj_pressed():
 
-    if metodaCombo.get() == "Aproximovana":
-        aproximovana_metoda()
+    #if metodaCombo.get() == "Aproximovana":
+    #    aproximovana_metoda()
     
-    #opracovavania
-    ##bla bla
+
+    stoziar = stoziare["Kotevný"]
+    fvodic = vodice["185  AlFe 3"]
+    result = mkh.metoda_bezZL(stoziar, fvodic)
+    #result vypises do grafickeho okna
+
 
 
 vypocitaj = ttk.Button(text="Vypočítaj", command=vypocitaj_pressed).grid()
