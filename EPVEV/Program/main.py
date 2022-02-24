@@ -64,13 +64,13 @@ class Stoziar:
 
 stoziare = {
     "Kotevný"               : Stoziar(XY(-12, 18.799), XY(0, 18.799), XY(12, 18.799), XY(-6, 31.789), XY(6, 31.789)),
-    "Kotevný rozkročený"    : Stoziar(XY(-13, 18.736), XY(0, 18.736), XY(12, 18.736), XY(-7, 31.726), XY(7, 31.726)),
+    "Kotevný rozkročený"    : Stoziar(XY(-13, 18.736), XY(0, 18.736), XY(13, 18.736), XY(-7, 31.726), XY(7, 31.726)),
 
 }
 
 vodice = {
     "185  AlFe 3"           :Vodic(20.39, 0.1609, 10.5, 235.6, 3, 0.8260, 0.1593, 0.242521 ),
-    "185  AlFe 6"           :Vodic(19.08, 0.1570, 7.08, 214.4, 6, 0.8, 0.1562, 0.314465 ),
+    "350  AlFe 4 test"      :Vodic(26.8, 0.0888, 11.8, 414.4, 3.99, 0.8212, 0.0888, 0.279851 ),
 }
 
 
@@ -173,7 +173,7 @@ def vypocitaj_pressed():
     
 
     stoziar = stoziare["Kotevný"]
-    fvodic = vodice["185  AlFe 3"]
+    fvodic = vodice["350  AlFe 4 test"]
     result = mkh.metoda_bezZL(stoziar, fvodic)
     #result vypises do grafickeho okna
 

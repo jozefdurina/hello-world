@@ -1,4 +1,5 @@
 from re import L
+from runpy import _ModifiedArgv0
 from tkinter import *
 from tkinter import ttk
 import tkinter as tk
@@ -116,15 +117,16 @@ def vypisMatice(M): # M je matica - definovana ako list listov
     # print("\n")    
 
 def aproximovana_metoda(fvodic, stoziar):
-    D = fvodic.D
+    D = fvodic.D/1000
     r = D/2
     E = fvodic.E
-    Rg = 49300   #[mΩ.km−1]
-    mi0 = 1.25663706212E-3 #[H/km]
-    dg = 796039 #[km]
+    Rg = 0.049300   #[Ω.km−1]
+    mi0 = 4*math.pi*10**-4 #[H/km]
+    print(mi0)
+    dg = 982.878 #[m]
    # Zik = Rik + jωLik
     Rik = Rg    #[Ω/km]
-    Rii = fvodic.RAC20 + Rg
+    Rii = fvodic.rdc20 + 3*Rg
 
     L = [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]
     R = [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]
@@ -135,11 +137,11 @@ def aproximovana_metoda(fvodic, stoziar):
             if i==k:
                 L[i][k] = (mi0/(2*math.pi)) * math.log(dg/(E*r), math.e)   #zistit ci treba r
                 R[i][k] = Rii
-                Z[i][k] = 1
+                Z[i][k] = Rii+1j*L[i][k]*100*math.pi
             else: 
                 L[i][k] = (mi0/(2*math.pi)) * math.log(dg/stoziar.m_vzd[i][k], math.e)
                 R[i][k] = Rik
-                Z[i][k] = 2
+                Z[i][k] = Rik+1j*L[i][k]*100*math.pi
 
 
     q = print("-------------------------------------------------------------------------------------------------------------------------------")
