@@ -48,11 +48,10 @@ dim=[[-12,18.799],
 n_k=len(dim)                                                    #pocet vodicov
     
 
-Z=[[0 for i in range (0, n_k)] for j in range (0, n_k)]   #impedancia
-D=[[0 for i in range (0, n_k)] for j in range (0, n_k)]
-d=[[0 for i in range (0, n_k)] for j in range (0, n_k)]
-Di=[[0 for i in range (0, n_k)] for j in range (0, n_k)]
-
+Z  = [[0 for i in range (n_k)] for j in range (n_k)]   #impedancia
+D  = [[0 for i in range (n_k)] for j in range (n_k)]
+d  = [[0 for i in range (n_k)] for j in range (n_k)]
+Di = [[0 for i in range (n_k)] for j in range (n_k)]
 
 for i in range (0,n_k):
     for j in range (0,n_k):
