@@ -5,7 +5,7 @@ from unicodedata import name
 from tkinter import messagebox
 import math
 
-import vypoctove_metody as mkh
+import vypoctove_metody
 
 
 class Vodic: 
@@ -24,10 +24,6 @@ class XY:
         self.x = x
         self.y = y
 
-    @staticmethod
-    def vzdialenost(b1, b2): #b1 a b2 su dva body typu XY
-        return math.sqrt((b1.x-b2.x)**2 + (b1.y-b2.y)**2)
-
     def vzdialenost(self, bod):
         return math.sqrt((self.x-bod.x)**2 + (self.y-bod.y)**2)
 
@@ -40,21 +36,13 @@ class Stoziar:
         self.z1 = z1
         self.z2 = z2
 
-        """self.ab = XY.vzdialenost(a, b)
-        self.ac = XY.vzdialenost(a, c)
-        self.bc = b.vzdialenost(c)
-        self.az1 = XY.vzdialenost(a, z1)
-        self.az2 = XY.vzdialenost(a, z2)
-        self.bz1 = XY.vzdialenost(b, z1)
-        self.bz2 = XY.vzdialenost(b, z2)
-        self.cz1 = XY.vzdialenost(c, z1)
-        self.cz2 = XY.vzdialenost(c, z2) """
-
-        self.m_vzd = [[0, XY.vzdialenost(a, b), XY.vzdialenost(a, c), XY.vzdialenost(a, z1), XY.vzdialenost(a, z2)],
-            [XY.vzdialenost(b, a), 0, XY.vzdialenost(b, c), XY.vzdialenost(b, z1), XY.vzdialenost(b, z2)],
-            [XY.vzdialenost(c, a), XY.vzdialenost(c, b), 0, XY.vzdialenost(c, z1), XY.vzdialenost(c, z2)],
-            [XY.vzdialenost(z1,a), XY.vzdialenost(z1,b), XY.vzdialenost(z1,c),0, XY.vzdialenost(z1, z2)], 
-            [XY.vzdialenost(z2,a), XY.vzdialenost(z2,b), XY.vzdialenost(z2,c), XY.vzdialenost(z2,z1),0]]
+        self.m_vzd = [
+            [ 0               , a .vzdialenost(b), a .vzdialenost(c), a .vzdialenost(z1), a .vzdialenost(z2)],
+            [ b.vzdialenost(a), 0                , b .vzdialenost(c), b .vzdialenost(z1), b .vzdialenost(z2)],
+            [ c.vzdialenost(a), c .vzdialenost(b), 0                , c .vzdialenost(z1), c .vzdialenost(z2)],
+            [z1.vzdialenost(a), z1.vzdialenost(b), z1.vzdialenost(c), 0                 , z1.vzdialenost(z2)],
+            [z2.vzdialenost(a), z2.vzdialenost(b), z2.vzdialenost(c), z2.vzdialenost(z1), 0                 ],
+        ]
 
 
 
@@ -174,7 +162,7 @@ def vypocitaj_pressed():
 
     stoziar = stoziare["Kotevný"]
     fvodic = vodice["350  AlFe 4 test"]
-    result = mkh.metoda_bezZL(stoziar, fvodic)
+    result = vypoctove_metody.metoda_bezZL(stoziar, fvodic)
     #result vypises do grafickeho okna
 
 
