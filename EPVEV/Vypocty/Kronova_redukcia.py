@@ -42,7 +42,7 @@ for i in range(2):
 # print(Pmm)
 
 
-Pabc = np.subtract(Pnn, np.matmul(Pnm, np.matmul(np.linalg.inv(Pmm), Pmn)))
+Pabc = np.subtract(Pnn, np.matmul(Pnm, np.matmul(np.linalg.inv(Pmm), Pmn))) 
 
 print ("Pabc")
 print(Pabc)
