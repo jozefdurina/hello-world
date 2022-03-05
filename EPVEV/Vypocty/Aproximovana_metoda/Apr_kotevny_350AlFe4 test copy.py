@@ -126,7 +126,7 @@ def aproximovana_metoda(fvodic, stoziar):
     dg = 982.878 #[m]
    # Zik = Rik + jωLik
     Rik = Rg    #[Ω/km]
-    Rii = fvodic.rdc20 + Rg
+    Rii = fvodic.rdc20 + 3*Rg
 
     L = [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]
     R = [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]
@@ -176,7 +176,7 @@ def aproximovana_metoda_click():
     #fvodic = vodice[fvodicCombo.get()]
     #stoziar = stoziare[stoziarCombo.get()]
     #aproximovana_metoda(fvodic, stoziar)
-    aproximovana_metoda(vodice["350  AlFe 4"] , stoziare["Kotevný"])
+    aproximovana_metoda(vodice["185  AlFe 3"] , stoziare["Kotevný"])
 
 
 vypocitaj = ttk.Button(text="Vypočítaj", command=aproximovana_metoda_click).grid()

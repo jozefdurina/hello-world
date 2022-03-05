@@ -5,12 +5,12 @@ from unicodedata import name
 from tkinter import messagebox
 import math
 
-import vypoctove_metody as mkh
+import vypoctove_metody
 
 
 class Vodic: 
     def __init__(self, D, RAC20, dFE, prierez, pomer, E, rdc20, t_d):
-        self.D = D
+        self.D = D              #v mm
         self.RAC20 = RAC20
         self.dFE = dFE
         self.prierez = prierez
@@ -87,30 +87,32 @@ frm.grid(row=0)
 #frm2.grid(row=1)
 
 
-ttk.Label(frm, text="Typ stožiara").grid(column=0, row=0)
-ttk.Label(frm, text="Typ fázového vodiča").grid(column=0, row=1)
-ttk.Label(frm, text="Typ vodiča zemného lana").grid(column=0, row=2)
+ttk.Label(frm, text="Metóda výpočtu").grid(column=0, row=0)
+ttk.Label(frm, text="Typ stožiara").grid(column=0, row=1)
+ttk.Label(frm, text="Typ fázového vodiča").grid(column=0, row=2)
+ttk.Label(frm, text="Typ vodiča zemného lana").grid(column=0, row=3)
 # ttk.Label(frm, text="Počet systémov").grid(column=0, row=3)
 # ttk.Label(frm, text="Minimálna výška vodiča (m)").grid(column=0, row=4)
 # ttk.Label(frm, text="Kronova redukcia").grid(column=0, row=5)
-# ttk.Label(frm, text="Metóda výpočtu").grid(column=0, row=6)
+
 # labelTop = tk.Label(frm, text = "Počet vodičov vo zväzku")
 # labelTop.grid(column=0, row=7)
 
 
 
-
+metodaCombo = ttk.Combobox(frm, values=["Metóda komlexnej hĺbky", "Aproximovaná",])
+metodaCombo.grid(column=2, row=0)
 
 stoziarCombo = ttk.Combobox(frm, state="readonly", values=list(stoziare.keys()))        
-stoziarCombo.grid(column=2, row=0)
+stoziarCombo.grid(column=2, row=1)
 
 
 fvodicCombo = ttk.Combobox(frm, state="readonly", values=list(vodice.keys()))
-fvodicCombo.grid(column=2, row=1)
+fvodicCombo.grid(column=2, row=2)
 
 
 zlvodicCombo = ttk.Combobox(frm, state="readonly", values=list(vodice.keys()))
-zlvodicCombo.grid(column=2, row=2)
+zlvodicCombo.grid(column=2, row=3)
 
 # pocetSystemCombo = ttk.Combobox(frm, state="readonly", values=["1","2","3","4"])
 # pocetSystemCombo.grid(column=2, row=3)
@@ -122,8 +124,7 @@ zlvodicCombo.grid(column=2, row=2)
 # cronoredukcia = ttk.Combobox(frm, state="readonly", values=["áno","nie"])
 # cronoredukcia.grid(column=2, row=5)
 
-# metodaCombo = ttk.Combobox(frm, values=["Metóda komlexnej hlbky","Metóda Alvardo","Metóda 3", "Aproximovana",])
-# metodaCombo.grid(column=2, row=6)
+
 
 # zvazokCombo = ttk.Combobox(frm, values=["1","2","3","4"])
 # zvazokCombo.grid(column=2, row=7)
@@ -167,14 +168,18 @@ def aproximovana_metoda():
                 L[i][k] = (mi0/2*math.pi) * math.ln(dg/stoziar.m_vzd[i][k])
 
 def vypocitaj_pressed():
+    stoziar = stoziare[stoziarCombo.get()]
+    fvodic = vodice[fvodicCombo.get()]
 
-    #if metodaCombo.get() == "Aproximovana":
-    #    aproximovana_metoda()
+    if metodaCombo.get() == "Aproximovaná":    
+        result = vypoctove_metody.aproximovana_metoda(fvodic, stoziar)        
+
+    if metodaCombo.get() == "Metóda komlexnej hĺbky":    
+        result = vypoctove_metody.metoda_komplexnej_hlbky(fvodic, stoziar)            
+
+    #stoziar = stoziare["Kotevný"]
+    #fvodic = vodice["350  AlFe 4 test"]
     
-
-    stoziar = stoziare["Kotevný"]
-    fvodic = vodice["350  AlFe 4 test"]
-    result = mkh.metoda_bezZL(stoziar, fvodic)
     #result vypises do grafickeho okna
 
 
