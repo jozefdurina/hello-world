@@ -41,6 +41,8 @@ def aproximovana_metoda(fvodic, stoziar):
     print("Matica Z\n")
     vypisMatice(Z)
 
+    return Z
+
 
 def metoda_komplexnej_hlbky(fvodic, stoziar):
     u_0=4*math.pi*pow(10,-7) #permeabilita vakua, Henri/meter

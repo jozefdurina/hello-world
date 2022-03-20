@@ -6,6 +6,8 @@ from tkinter import messagebox
 import math
 
 import vypoctove_metody
+import Kronova_redukcia 
+import Zlozkova_sustava
 
 
 class Vodic: 
@@ -166,7 +168,12 @@ def vypocitaj_pressed():
     fvodic = vodice[fvodicCombo.get()]
 
     if metodaCombo.get() == "Aproximovaná":    
-        result = vypoctove_metody.aproximovana_metoda(fvodic, stoziar)        
+        Z = vypoctove_metody.aproximovana_metoda(fvodic, stoziar)
+        Zabc = Kronova_redukcia.kronovaRedukcia(Z)
+        Z012 = Zlozkova_sustava.zlozkova_sustava(Zabc)
+        #print(Z012[0][0])
+        #if (treba_kronovu_redukciu):
+
 
     if metodaCombo.get() == "Metóda komlexnej hĺbky":    
         result = vypoctove_metody.metoda_komplexnej_hlbky(fvodic, stoziar)            
