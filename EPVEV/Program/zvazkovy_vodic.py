@@ -11,6 +11,6 @@ def zvazkovy_vodic(r, a, n)
 
     p=a/(2*sin(math.pi/n))     #polomer kruznice rozmiestnenia vodicov vo zvazku
     r_zv=sqrt((n*r*pow(p,n-1)),n)
+    Er= sqrt(E*r_zv, n)
 
-
-return 
+return r_zv, Er
