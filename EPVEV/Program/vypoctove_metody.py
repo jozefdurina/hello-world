@@ -1,17 +1,30 @@
 import math
 import cmath
+import main
 
 def aproximovana_metoda(fvodic, stoziar):
     D = fvodic.D/1000
-    r = D/2
-    E = fvodic.E
+    #r = D/2
+    #E = fvodic.E
     Rg = 0.049300   #[Ω.km−1]
     mi0 = 4*math.pi*10**-4 #[H/km]
     print(mi0)
     dg = 982.878 #[m]
    # Zik = Rik + jωLik
     Rik = Rg    #[Ω/km]
-    Rii = fvodic.rdc20 + Rg
+    #Rii = fvodic.rdc20 + Rg
+    r = D/2
+
+    if main.zvazokCombo.get() == "1":
+       
+        Er = fvodic.E * r
+        Rii = fvodic.rdc20 + Rg
+
+    if main.zvazokCombo.get() == "2":
+        p=main.krokCombo.get()/(2*sin(math.pi/2))     #polomer kruznice rozmiestnenia vodicov vo zvazku
+        r_zv=sqrt((2*r*pow(p,1)),2)
+        Er= sqrt(E*r_zv, 2)
+
 
     L = [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]
     R = [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]]
@@ -20,7 +33,7 @@ def aproximovana_metoda(fvodic, stoziar):
     for i in range(5):
         for k in range(5):
             if i==k:
-                L[i][k] = (mi0/(2*math.pi)) * math.log(dg/(E*r), math.e)   #zistit ci treba r
+                L[i][k] = (mi0/(2*math.pi)) * math.log(dg/(Er), math.e)   #zistit ci treba r
                 R[i][k] = Rii
                 Z[i][k] = Rii+1j*L[i][k]*100*math.pi
             else: 
