@@ -14,6 +14,7 @@ import Kronova_redukcia
 import Zlozkova_sustava
 import vypoctove_mapy
 import Aproximovana_metoda
+import zvazkovy_vodic
 
 
 # definícia okna
@@ -283,6 +284,12 @@ def vypocitaj_pressed():
     #zvodic = vypoctove_mapy.vodice[zvodicCombo.get()]
 
     zvodic = vypoctove_mapy.vodice(D_zl.get("1.0",END), [zvodicCombo.get().RAC20], dFE_zl.get("1.0",END), prierez_zl.get("1.0",END), pomer_zl.get("1.0",END), [zvodicCombo.get().E], [zvodicCombo.get().rdc20], td_zl.get("1.0",END))
+    
+    if krok_read = 2
+        
+    
+    
+    if krok_read = 3
 
 
     Z = Aproximovana_metoda.aproximovana_metoda(fvodic, zvodic, stoziar)
