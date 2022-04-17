@@ -62,13 +62,13 @@ vStoziar.trace('w', stoziar_changed)
 stoziarCombo = ttk.Combobox(frm, state="readonly", values=list(vypoctove_mapy.stoziare.keys()), textvar=vStoziar, width=25)        
 stoziarCombo.grid(column=1, row=0)
 
-L1x = ttk.Label(frm, text="L1x", width=10, anchor = "center")                      
+L1x = ttk.Label(frm, text="L1x", width=10, anchor = "e")                      
 L1x.grid(column=3, row=1)
 L1y = ttk.Label(frm, text="L1y")
 L1y.grid(column=3, row=2)
-L1x_fv = Text(frm, height=1, width=5)
+L1x_fv = Text(frm, height=1, width=7)
 L1x_fv.grid(column=4, row=1)
-L1y_fv = Text(frm, height=1, width=5)
+L1y_fv = Text(frm, height=1, width=7)
 L1y_fv.grid(column=4, row=2)
 
 L2x = ttk.Label(frm, text="L2x", width=10)
@@ -275,9 +275,16 @@ def vypocitaj_pressed():
 
     stoziar = vypoctove_mapy.Stoziar(L1, L2, L3, ZL1, ZL2)
 
-    
-    fvodic = vypoctove_mapy.vodice[fvodicCombo.get()]
-    zvodic = vypoctove_mapy.vodice[zvodicCombo.get()]
+     #D, RAC20, dFE, prierez, pomer, E, rdc20, t_d)
+    #fvodic = vypoctove_mapy.vodice[fvodicCombo.get()]
+    fvodic = vypoctove_mapy.vodice(D_fv.get("1.0",END), [fvodicCombo.get().RAC20], dFE_fv.get("1.0",END), prierez_fv.get("1.0",END), pomer_fv.get("1.0",END), [fvodicCombo.get().E], [fvodicCombo.get().rdc20], td_fv.get("1.0",END))
+    ## musi byť aj vypoctove_mapy.vodice??
+
+    #zvodic = vypoctove_mapy.vodice[zvodicCombo.get()]
+
+    zvodic = vypoctove_mapy.vodice(D_zl.get("1.0",END), [zvodicCombo.get().RAC20], dFE_zl.get("1.0",END), prierez_zl.get("1.0",END), pomer_zl.get("1.0",END), [zvodicCombo.get().E], [zvodicCombo.get().rdc20], td_zl.get("1.0",END))
+
+
     Z = Aproximovana_metoda.aproximovana_metoda(fvodic, zvodic, stoziar)
     Zabc = Kronova_redukcia.kronovaRedukcia(Z)
     Z012 = Zlozkova_sustava.zlozkova_sustava(Zabc)
