@@ -11,6 +11,30 @@ class Vodic:
         self.rdc20 = rdc20
         self.t_d = t_d
 
+    def setD(self, D):
+        self.D = D
+
+    def setRAC20(self, RAC20):
+        self.RAC20 = RAC20
+
+    def setdFE(self, dFE):
+        self.dFE = dFE
+
+    def setprierez(self, prierez):
+        self.prierez = prierez
+
+    def setpomer(self, pomer):
+        self.pomer = pomer
+
+    def setE(self, E):
+        self.E = E
+
+    def setrdc20(self, rdc20):
+        self.rdc20 = rdc20
+    
+    def sett_d(self, t_d):
+        self.t_d = t_d
+
 class XY: 
     def __init__(self, x, y):
         self.x = x

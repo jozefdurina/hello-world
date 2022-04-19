@@ -1,13 +1,13 @@
 import math
 import cmath
 
-def aproximovana_metoda(fvodic, zvodic, stoziar):
-    D = fvodic.D/1000
-    D_z = zvodic.D/1000
-    r = D/2
-    r_z = D_z/2
-    E = fvodic.E
-    E_z = zvodic.E
+def aproximovana_metoda(fvodic, zvodic, stoziar, krok):
+    D_f = fvodic.D/1000
+    D_zl = zvodic.D/1000
+    r_f = D_f/2
+    r_zl = D_zl/2
+    E_f = fvodic.E
+    E_zl = zvodic.E
     Rg = 0.049300   #[Ω.km−1]
     mi0 = 4*math.pi*10**-4 #[H/km]
     print(mi0)
@@ -16,9 +16,33 @@ def aproximovana_metoda(fvodic, zvodic, stoziar):
     Rik = Rg    #[Ω/km]
     Rii = fvodic.rdc20 + Rg
     Rzz = zvodic.rdc20 + Rg
-
+    a = krok   #???
+    Er = E_f*r_f
 
     
+    if krok = 2
+        R_zv = Rii/2
+        Rii = R_zv
+        p=a/(2*sin(math.pi/2))     #polomer kruznice rozmiestnenia vodicov vo zvazku
+        r_zv=sqrt((2*r*pow(p,2-1)),2)     #r_zv
+        r_f = r_zv
+        Er= sqrt(E_f*r_zv, 2)
+
+        #r= polomer vodica v m
+        #a= krok zvazku v m
+        #n= pocet vodicov vo zvazku
+    
+    
+    if krok = 3
+        R_zv = Rii/3
+        Rii = R_zv
+        p=a/(2*sin(math.pi/3))     #polomer kruznice rozmiestnenia vodicov vo zvazku
+        r_zv=sqrt((3*r*pow(p,3-1)),3)     #r_zv
+        r_f = r_zv
+        Er= sqrt(E_f*r_zv, 3)
+
+
+
 
     #if main.zvazokCombo.get() == "1":
        
@@ -59,11 +83,11 @@ def aproximovana_metoda(fvodic, zvodic, stoziar):
                 
                 if i<3:
                     R[i][i] = Rii
-                    L[i][i] = (mi0/(2*math.pi)) * math.log(dg/(E*r), math.e)   #zistit ci treba r
+                    L[i][i] = (mi0/(2*math.pi)) * math.log(dg/(Er), math.e)   #zistit ci treba r
                     Z[i][k] = Rii+1j*L[i][i]*100*math.pi
                 else:
                     R[i][i] = Rzz
-                    L[i][i] = (mi0/(2*math.pi)) * math.log(dg/(E_z*r_z), math.e)
+                    L[i][i] = (mi0/(2*math.pi)) * math.log(dg/(E_zl*r_zl), math.e)
                     Z[i][i] = Rzz+1j*L[i][i]*100*math.pi
 
                 # R[i][k] = Rii

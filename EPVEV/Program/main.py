@@ -8,13 +8,14 @@ from turtle import right
 from unicodedata import name
 from tkinter import messagebox
 import math
+import copy
 
 #import vypoctove_metody
 import Kronova_redukcia 
 import Zlozkova_sustava
 import vypoctove_mapy
 import Aproximovana_metoda
-import zvazkovy_vodic
+#import zvazkovy_vodic
 
 
 # definícia okna
@@ -276,23 +277,27 @@ def vypocitaj_pressed():
 
     stoziar = vypoctove_mapy.Stoziar(L1, L2, L3, ZL1, ZL2)
 
-     #D, RAC20, dFE, prierez, pomer, E, rdc20, t_d)
-    #fvodic = vypoctove_mapy.vodice[fvodicCombo.get()]
-    fvodic = vypoctove_mapy.vodice(D_fv.get("1.0",END), [fvodicCombo.get().RAC20], dFE_fv.get("1.0",END), prierez_fv.get("1.0",END), pomer_fv.get("1.0",END), [fvodicCombo.get().E], [fvodicCombo.get().rdc20], td_fv.get("1.0",END))
+    fvodic = copy.copy(vypoctove_mapy.vodice[fvodicCombo.get()])
+    fvodic.setD         (float(D_fv.get("1.0",END)))
+    fvodic.setdFE       (float(dFE_fv.get("1.0",END)))
+    fvodic.setprierez   (float(prierez_fv.get("1.0",END)))
+    fvodic.setpomer     (float(pomer_fv.get("1.0",END)))
+    fvodic.sett_d       (float(td_fv.get("1.0",END)))
+
     ## musi byť aj vypoctove_mapy.vodice??
 
     #zvodic = vypoctove_mapy.vodice[zvodicCombo.get()]
 
-    zvodic = vypoctove_mapy.vodice(D_zl.get("1.0",END), [zvodicCombo.get().RAC20], dFE_zl.get("1.0",END), prierez_zl.get("1.0",END), pomer_zl.get("1.0",END), [zvodicCombo.get().E], [zvodicCombo.get().rdc20], td_zl.get("1.0",END))
-    
-    if krok_read = 2
-        
-    
-    
-    if krok_read = 3
+    zvodic = copy.copy(vypoctove_mapy.vodice[zvodicCombo.get()])
+    zvodic.setD         (float(D_zl.get("1.0",END)))
+    zvodic.setdFE       (float(dFE_zl.get("1.0",END)))
+    zvodic.setprierez   (float(prierez_zl.get("1.0",END)))
+    zvodic.setpomer     (float(pomer_zl.get("1.0",END)))
+    zvodic.sett_d       (float(td_zl.get("1.0",END)))
 
+    krok = int(krok.read.get())
 
-    Z = Aproximovana_metoda.aproximovana_metoda(fvodic, zvodic, stoziar)
+    Z = Aproximovana_metoda.aproximovana_metoda(fvodic, zvodic, stoziar, krok)
     Zabc = Kronova_redukcia.kronovaRedukcia(Z)
     Z012 = Zlozkova_sustava.zlozkova_sustava(Zabc)
 
@@ -317,9 +322,6 @@ def vypocitaj_pressed():
 vypocitaj = ttk.Button(text="Vypočítaj", command=vypocitaj_pressed).grid()
 
 def debug_pressed():
-    #root = Tk()
-    #root.geometry()
-    #root.title("ahoj")
     messagebox.showinfo("debug", stoziarCombo["values"])
 
 debug = ttk.Button(text="Debug", command=debug_pressed).grid()
