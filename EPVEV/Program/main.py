@@ -18,17 +18,15 @@ import Aproximovana_metoda
 #import zvazkovy_vodic
 
 
-# definícia okna
+# definícia okna 
 
 root = Tk()
-#root.geometry()
 root.title("Výpočet parametrov vedení")
 
+# definicia ramika
 
 frm = ttk.Frame(root, padding=10)
-
 frm.grid()
-#frm2.grid(column=0)
 
 # Stoziar
 
@@ -224,45 +222,23 @@ ttk.Label(frm, text="Minimálna výška vodiča (m)").grid(column=0, row=15)
 min_vyska = Text(frm, height=1, width=17)
 min_vyska.grid(column=1, row=15)
 
+#Automaticky vypocet
 
 
-# ttk.Label(frm, text="Metóda výpočtu").grid(column=0, row=6)
-# ttk.Label(frm, text= "Kronova redukcia").grid(column=0, row=7)
-# ttk.Label(frm, text= "Zlozkova sustava").grid(column=0, row=8)
-# ttk.Label(frm, text= "Krok zvazku v m").grid(column=0, row=9)
-# ttk.Label(frm, text="Počet systémov").grid(column=0, row=10)
+ttk.Label(frm, text = "Menený vstupný parameter").grid(column=0, row=17)
 
+vstup_param = ttk.Combobox(frm, values=["1","2","3"])
+vstup_param.grid(column=1, row=17)
 
+rozsah = ttk.Label(frm, text="rozsah")
+rozsah.grid(column=3, row=18)
+krok_read = Text(frm, height=1, width=5)
+krok_read.grid(column=4, row=18)
 
-
-
-
-
-
-
-
-
-
-# zvazokCombo = ttk.Combobox(frm, values=["1","2","3"])
-# zvazokCombo.grid(column=2, row=3)
-# metodaCombo = ttk.Combobox(frm, values=["Metóda komlexnej hĺbky", "Aproximovaná",])
-# metodaCombo.grid(column=2, row=4)
-# redukciaCombo = ttk.Combobox(frm, state="readonly", values=["áno","nie"])
-# redukciaCombo.grid(column=2, row=5)
-# zlozkyCombo = ttk.Combobox(frm, state="readonly", values=["áno","nie"])
-# zlozkyCombo.grid(column=2, row=6)
-# krokCombo = ttk.Combobox(frm)
-# krokCombo.grid(column=2, row=7)
-# pocetSystemCombo = ttk.Combobox(frm, state="readonly", values=["1","2","3","4"])
-# pocetSystemCombo.grid(column=2, row=3)
-# minvyska = ttk.Combobox(frm)
-# minvyska.grid(column=2, row=4)
-
-
-
-
-
-
+krok_rozsah = ttk.Label(frm, text="krok rozsahu")
+krok_rozsah.grid(column=5, row=18)
+krok_read = Text(frm, height=1, width=5)
+krok_read.grid(column=6, row=18)
 
 
 
@@ -284,9 +260,6 @@ def vypocitaj_pressed():
     fvodic.setpomer     (float(pomer_fv.get("1.0",END)))
     fvodic.sett_d       (float(td_fv.get("1.0",END)))
 
-    ## musi byť aj vypoctove_mapy.vodice??
-
-    #zvodic = vypoctove_mapy.vodice[zvodicCombo.get()]
 
     zvodic = copy.copy(vypoctove_mapy.vodice[zvodicCombo.get()])
     zvodic.setD         (float(D_zl.get("1.0",END)))
@@ -295,27 +268,11 @@ def vypocitaj_pressed():
     zvodic.setpomer     (float(pomer_zl.get("1.0",END)))
     zvodic.sett_d       (float(td_zl.get("1.0",END)))
 
-    krok = int(krok.read.get())
-
-    Z = Aproximovana_metoda.aproximovana_metoda(fvodic, zvodic, stoziar, krok)
+    #krok = krok_read.get()
+    #zvazok = float(zvazokCombo.get())
+    Z = Aproximovana_metoda.aproximovana_metoda(fvodic, zvodic, stoziar, krok, zvazok)
     Zabc = Kronova_redukcia.kronovaRedukcia(Z)
     Z012 = Zlozkova_sustava.zlozkova_sustava(Zabc)
-
-
-    #if metodaCombo.get() == "Aproximovaná":  
-
-        # Z = vypoctove_metody.aproximovana_metoda(fvodic, zvodic, stoziar)
-        # Zabc = Kronova_redukcia.kronovaRedukcia(Z)
-        # Z012 = Zlozkova_sustava.zlozkova_sustava(Zabc)
-       
-
-
-    #if metodaCombo.get() == "Metóda komlexnej hĺbky":    
-        #result = vypoctove_metody.metoda_komplexnej_hlbky(fvodic, stoziar)            
-
-   
-    
-    #result vypises do grafickeho okna
 
 
 
@@ -325,6 +282,21 @@ def debug_pressed():
     messagebox.showinfo("debug", stoziarCombo["values"])
 
 debug = ttk.Button(text="Debug", command=debug_pressed).grid()
+
+
+def table_pressed():
+    messagebox.showinfo("debug", stoziarCombo["values"])
+
+debug = ttk.Button(text="Debug", command=debug_pressed).grid()
+
+
+def graf_pressed():
+    messagebox.showinfo("Tabulka", stoziarCombo["values"])
+
+debug = ttk.Button(text="Graf", command=debug_pressed).grid()
+
+
+
 
 root.mainloop()
 
