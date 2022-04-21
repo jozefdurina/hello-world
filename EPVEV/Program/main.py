@@ -207,7 +207,7 @@ td_zl.grid(column=12, row=7)
 
 ttk.Label(frm, text = "Počet vodičov vo zväzku").grid(column=0, row=13)
 
-zvazokCombo = ttk.Combobox(frm, values=["1","2","3"])
+zvazokCombo = ttk.Combobox(frm, state="readonly", values=["1","2","3"])
 zvazokCombo.grid(column=1, row=13)
 
 krok = ttk.Label(frm, text="krok")
@@ -230,15 +230,15 @@ ttk.Label(frm, text = "Menený vstupný parameter").grid(column=0, row=17)
 vstup_param = ttk.Combobox(frm, values=["1","2","3"])
 vstup_param.grid(column=1, row=17)
 
-rozsah = ttk.Label(frm, text="rozsah")
-rozsah.grid(column=3, row=18)
-krok_read = Text(frm, height=1, width=5)
-krok_read.grid(column=4, row=18)
+frm.grid_rowconfigure(18, minsize=100)
 
-krok_rozsah = ttk.Label(frm, text="krok rozsahu")
-krok_rozsah.grid(column=5, row=18)
-krok_read = Text(frm, height=1, width=5)
-krok_read.grid(column=6, row=18)
+ttk.Label(frm, text="rozsah").grid(column=3, row=19)
+rozsah = Text(frm, height=1, width=5)
+rozsah.grid(column=4, row=18)
+
+ttk.Label(frm, text="krok rozsahu").grid(column=5, row=19)
+krok_rozsah = Text(frm, height=1, width=5)
+krok_rozsah.grid(column=6, row=18)
 
 
 
@@ -268,11 +268,22 @@ def vypocitaj_pressed():
     zvodic.setpomer     (float(pomer_zl.get("1.0",END)))
     zvodic.sett_d       (float(td_zl.get("1.0",END)))
 
-    #krok = krok_read.get()
-    #zvazok = float(zvazokCombo.get())
+    krok = int(krok_read.get("1.0",END))
+    zvazok = float(zvazokCombo.get())
     Z = Aproximovana_metoda.aproximovana_metoda(fvodic, zvodic, stoziar, krok, zvazok)
     Zabc = Kronova_redukcia.kronovaRedukcia(Z)
     Z012 = Zlozkova_sustava.zlozkova_sustava(Zabc)
+
+    # vysledky = []
+    # for i in range(pocet_krokov): # podla poctu krokov
+    #     Z = Aproximovana_metoda.aproximovana_metoda(fvodic, zvodic, stoziar, krok, zvazok)
+    #     Zabc = Kronova_redukcia.kronovaRedukcia(Z)
+    #     Z012 = Zlozkova_sustava.zlozkova_sustava(Zabc)
+    #     vysledky.append(Z012)
+
+    # zakresli(vysledky, nezavisla, zavisla)
+    # zapisDoExcelu(vysledky)
+    #vysledky[0][0][0].realna_cast()
 
 
 

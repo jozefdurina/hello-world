@@ -1,5 +1,6 @@
 import math
-import cmath
+#from math import *
+
 
 def aproximovana_metoda(fvodic, zvodic, stoziar, krok, zvazok):
     D_f = fvodic.D/1000
@@ -20,26 +21,26 @@ def aproximovana_metoda(fvodic, zvodic, stoziar, krok, zvazok):
     Er = E_f*r_f
 
     
-    # #if  zvazok == 2
-    #     R_zv = Rii/2
-    #     Rii = R_zv
-    #     p=krok/(2*sin(math.pi/2))     #polomer kruznice rozmiestnenia vodicov vo zvazku
-    #     r_zv=sqrt((2*r_f*pow(p,2-1)),2)     #r_zv
-    #     r_f = r_zv
-    #     Er= sqrt(E_f*r_zv, 2)
+    if  zvazok == 2:
+        R_zv = Rii/2
+        Rii = R_zv
+        p=krok/(2*math.sin(math.pi/2))     #polomer kruznice rozmiestnenia vodicov vo zvazku
+        r_zv=math.sqrt(2*r_f*pow(p,2-1))     #r_zv
+        r_f = r_zv
+        Er= math.sqrt(E_f*r_zv)
 
-    #     #r= polomer vodica v m
-    #     #a= krok zvazku v m
-    #     #n= pocet vodicov vo zvazku
+        #r= polomer vodica v m
+        #a= krok zvazku v m
+        #n= pocet vodicov vo zvazku
     
     
-    # #if  zvazok == 3
-    #     R_zv = Rii/3
-    #     Rii = R_zv
-    #     p=krok/(2*sin(math.pi/3))     #polomer kruznice rozmiestnenia vodicov vo zvazku
-    #     r_zv=sqrt((3*r_f*pow(p,3-1)),3)     #r_zv
-    #     r_f = r_zv
-    #     Er= sqrt(E_f*r_zv, 3)
+    if  zvazok == 3:
+        R_zv = Rii/3
+        Rii = R_zv
+        p=krok/(2*math.sin(math.pi/3))     #polomer kruznice rozmiestnenia vodicov vo zvazku
+        r_zv=math.pow((3*r_f*pow(p,3-1)),1/3)     #r_zv
+        r_f = r_zv
+        Er= math.pow(E_f*r_zv, 1/3)
 
 
 
