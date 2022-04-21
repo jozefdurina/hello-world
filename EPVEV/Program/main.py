@@ -1,6 +1,5 @@
 from email import message
 from multiprocessing.sharedctypes import Value
-
 from tkinter import *
 from tkinter import ttk
 import tkinter as tk
@@ -9,13 +8,11 @@ from unicodedata import name
 from tkinter import messagebox
 import math
 import copy
-
-#import vypoctove_metody
 import Kronova_redukcia 
 import Zlozkova_sustava
 import vypoctove_mapy
 import Aproximovana_metoda
-#import zvazkovy_vodic
+
 
 
 # definícia okna 
@@ -207,7 +204,7 @@ td_zl.grid(column=12, row=7)
 
 ttk.Label(frm, text = "Počet vodičov vo zväzku").grid(column=0, row=13)
 
-zvazokCombo = ttk.Combobox(frm, values=["1","2","3"])
+zvazokCombo = ttk.Combobox(frm, state="readonly", values=["1","2","3"])
 zvazokCombo.grid(column=1, row=13)
 
 krok = ttk.Label(frm, text="krok")
@@ -227,18 +224,22 @@ min_vyska.grid(column=1, row=15)
 
 ttk.Label(frm, text = "Menený vstupný parameter").grid(column=0, row=17)
 
-vstup_param = ttk.Combobox(frm, values=["1","2","3"])
+vstup_param = ttk.Combobox(frm, state="readonly", values=["L1x", "L1y", "L2x", "L2y", "L3x", "L3y", "ZL1x", "ZL1y", "ZL2x", "ZL2y", "D.fv", "dFE.fv", "prierez.fv", "pomer.fv", "td.fv", "D.zl", "dFE.zl", "prierez.zl", "pomer.zl", "td.zl"  ])
 vstup_param.grid(column=1, row=17)
 
-rozsah = ttk.Label(frm, text="rozsah")
-rozsah.grid(column=3, row=18)
-krok_read = Text(frm, height=1, width=5)
-krok_read.grid(column=4, row=18)
+ttk.Label(frm, text="rozsah od").grid(column=3, row=18)
+rozsah_od = Text(frm, height=1, width=5)
+rozsah_od.grid(column=4, row=18)
 
-krok_rozsah = ttk.Label(frm, text="krok rozsahu")
-krok_rozsah.grid(column=5, row=18)
-krok_read = Text(frm, height=1, width=5)
-krok_read.grid(column=6, row=18)
+ttk.Label(frm, text="rozsah do").grid(column=5, row=18)
+rozsah_do = Text(frm, height=1, width=5)
+rozsah_do.grid(column=6, row=18)
+
+
+
+ttk.Label(frm, text="krok rozsahu").grid(column=7, row=18)
+rozsah_krok= Text(frm, height=1, width=5)
+rozsah_krok.grid(column=8, row=18)
 
 
 
