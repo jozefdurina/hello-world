@@ -8,6 +8,9 @@ from unicodedata import name
 from tkinter import messagebox
 import math
 import copy
+
+import matplotlib.pyplot as plt
+
 import Kronova_redukcia 
 import Zlozkova_sustava
 import vypoctove_mapy
@@ -38,25 +41,25 @@ ttk.Label(frm, text="Typ stožiara").grid(column=0, row=0)
 
 def stoziar_changed(index, value, op):
     L1x_fv.delete("1.0","end")
-    L1x_fv.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].a.x))
+    L1x_fv.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].L1.x))
     L1y_fv.delete("1.0","end")
-    L1y_fv.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].a.y))
+    L1y_fv.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].L1.y))
     L2x_fv.delete("1.0","end")
-    L2x_fv.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].b.x))
+    L2x_fv.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].L2.x))
     L2y_fv.delete("1.0","end")
-    L2y_fv.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].b.y))
+    L2y_fv.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].L2.y))
     L3x_fv.delete("1.0","end")
-    L3x_fv.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].c.x))
+    L3x_fv.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].L3.x))
     L3y_fv.delete("1.0","end")
-    L3y_fv.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].c.y))
+    L3y_fv.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].L3.y))
     ZL1x_zl.delete("1.0","end")
-    ZL1x_zl.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].z1.x))
+    ZL1x_zl.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].ZL1.x))
     ZL1y_zl.delete("1.0","end")
-    ZL1y_zl.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].z1.y))
+    ZL1y_zl.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].ZL1.y))
     ZL2x_zl.delete("1.0","end")
-    ZL2x_zl.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].z2.x))
+    ZL2x_zl.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].ZL2.x))
     ZL2y_zl.delete("1.0","end")
-    ZL2y_zl.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].z2.y))
+    ZL2y_zl.insert('end', str(vypoctove_mapy.stoziare[stoziarCombo.get()].ZL2.y))
 
 vStoziar = StringVar()
 vStoziar.trace('w', stoziar_changed)
@@ -208,8 +211,8 @@ zvazokCombo = ttk.Combobox(frm, state="readonly", values=["1","2","3"], width=25
 zvazokCombo.grid(column=1, row=13)
 
 ttk.Label(frm, text="krok zvazku", width=10, anchor = "e").grid(column=3, row=14)
-krok_read = Text(frm, height=1, width=7)
-krok_read.grid(column=4, row=14)
+krok_zvazok = Text(frm, height=1, width=7)
+krok_zvazok.grid(column=4, row=14)
 frm.grid_rowconfigure(14, minsize=50)
 
 ################################################################################################################
@@ -241,17 +244,15 @@ rozsah_do = Text(frm, height=1, width=7)
 rozsah_do.grid(column=6, row=18)
 
 ttk.Label(frm, text="krok rozsahu",  width=10, anchor = "e").grid(column=7, row=18)
-rozsah_krok= Text(frm, height=1, width=7)
-rozsah_krok.grid(column=8, row=18)
+krok_rozsah= Text(frm, height=1, width=7)
+krok_rozsah.grid(column=8, row=18)
 
 frm.grid_rowconfigure(18, minsize=50)
 
 
 ################################################################################################################
 
-def vypocitaj_pressed():
-    #stoziar = vypoctove_mapy.stoziare[stoziarCombo.get()]   
-    
+def ziskaj_vstupy():
     L1 = vypoctove_mapy.XY(float(L1x_fv.get("1.0",END)), float(L1y_fv.get("1.0",END)))
     L2 = vypoctove_mapy.XY(float(L2x_fv.get("1.0",END)), float(L2y_fv.get("1.0",END)))
     L3 = vypoctove_mapy.XY(float(L3x_fv.get("1.0",END)), float(L3y_fv.get("1.0",END)))
@@ -275,17 +276,50 @@ def vypocitaj_pressed():
     zvodic.setpomer     (float(pomer_zl.get("1.0",END)))
     zvodic.sett_d       (float(td_zl.get("1.0",END)))
 
-    krok = int(krok_read.get("1.0",END))
+    krokzv = int(krok_zvazok.get("1.0",END))
     zvazok = float(zvazokCombo.get())
-    Z = Aproximovana_metoda.aproximovana_metoda(fvodic, zvodic, stoziar, krok, zvazok)
+
+    return stoziar, fvodic, zvodic, krokzv, zvazok
+
+def vypocitaj_pressed():
+    stoziar, fvodic, zvodic, krokzv, zvazok = ziskaj_vstupy()    
+
+    Z = Aproximovana_metoda.aproximovana_metoda(fvodic, zvodic, stoziar, krokzv, zvazok)
     Zabc = Kronova_redukcia.kronovaRedukcia(Z)
     Z012 = Zlozkova_sustava.zlozkova_sustava(Zabc)
 
+def analyzuj_pressed():
+    stoziar, fvodic, zvodic, krokzv, zvazok = ziskaj_vstupy()    
+    
+    od = float(rozsah_od.get("1.0",END))
+    do = float(rozsah_do.get("1.0",END))
+    krokr = float(krok_rozsah.get("1.0",END))
 
+    meneny = vstup_param.get()
 
+    import numpy as np
 
+    x = np.arange(od, do , krokr)
+    y = []
+ 
+    for i in x:
+        if meneny=="L1x":
+            stoziar.L1.setX(i)
+        elif meneny == "L1y":
+            stoziar.L1.setY(i)
+        elif meneny=="D.fv":
+            fvodic.setD(i)
 
-#
+    
+        Z = Aproximovana_metoda.aproximovana_metoda(fvodic, zvodic, stoziar, krokzv, zvazok)
+        Zabc = Kronova_redukcia.kronovaRedukcia(Z)
+        Z012 = Zlozkova_sustava.zlozkova_sustava(Zabc)
+
+        y.append(np.imag(Z012[0][0]))
+    
+    plt.plot(x, y)
+    plt.show()
+
 
 
 
@@ -308,7 +342,7 @@ ttk.Button(text="Vypočítaj", command=vypocitaj_pressed).grid()
 def debug_pressed():
     messagebox.showinfo("debug", stoziarCombo["values"])
 
-#ttk.Button(text="Analyzuj", command=analyzuj_pressed).grid()
+ttk.Button(text="Analyzuj", command=analyzuj_pressed).grid()
 
 
 def table_pressed():

@@ -43,21 +43,26 @@ class XY:
     def vzdialenost(self, bod):
         return math.sqrt((self.x-bod.x)**2 + (self.y-bod.y)**2)
 
+    def setX(self, x):
+        self.x = x
+
+    def setY(self, y):
+        self.y = y
 
 class Stoziar: 
-    def __init__(self, a:XY, b:XY, c:XY, z1:XY, z2:XY):
-        self.a = a
-        self.b = b
-        self.c = c
-        self.z1 = z1
-        self.z2 = z2
+    def __init__(self, L1:XY, L2:XY, L3:XY, ZL1:XY, ZL2:XY):
+        self.L1 = L1
+        self.L2 = L2
+        self.L3 = L3
+        self.ZL1 = ZL1
+        self.ZL2 = ZL2
 
         self.m_vzd = [
-            [ 0               , a .vzdialenost(b), a .vzdialenost(c), a .vzdialenost(z1), a .vzdialenost(z2)],
-            [ b.vzdialenost(a), 0                , b .vzdialenost(c), b .vzdialenost(z1), b .vzdialenost(z2)],
-            [ c.vzdialenost(a), c .vzdialenost(b), 0                , c .vzdialenost(z1), c .vzdialenost(z2)],
-            [z1.vzdialenost(a), z1.vzdialenost(b), z1.vzdialenost(c), 0                 , z1.vzdialenost(z2)],
-            [z2.vzdialenost(a), z2.vzdialenost(b), z2.vzdialenost(c), z2.vzdialenost(z1), 0                 ],
+            [ 0               , L1 .vzdialenost(L2), L1 .vzdialenost(L3), L1 .vzdialenost(ZL1), L1 .vzdialenost(ZL2)],
+            [ L2.vzdialenost(L1), 0                , L2 .vzdialenost(L3), L2 .vzdialenost(ZL1), L2 .vzdialenost(ZL2)],
+            [ L3.vzdialenost(L1), L3 .vzdialenost(L2), 0                , L3 .vzdialenost(ZL1), L3 .vzdialenost(ZL2)],
+            [ZL1.vzdialenost(L1), ZL1.vzdialenost(L2), ZL1.vzdialenost(L3), 0                 , ZL1.vzdialenost(ZL2)],
+            [ZL2.vzdialenost(L1), ZL2.vzdialenost(L2), ZL2.vzdialenost(L3), ZL2.vzdialenost(ZL1), 0                 ],
         ]
 
 
