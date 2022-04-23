@@ -14,21 +14,26 @@ import vypoctove_mapy
 import Aproximovana_metoda
 
 
-
+################################################################################################################
 # definícia okna 
 
 root = Tk()
 root.title("Výpočet parametrov vedení")
 
+
+################################################################################################################
 # definicia ramika
 
 frm = ttk.Frame(root, padding=10)
 frm.grid()
+frm.grid_rowconfigure(5, minsize=50)
+frm.grid_rowconfigure(7, minsize=50)
 
+
+################################################################################################################
 # Stoziar
 
-a = ttk.Label(frm, text="Typ stožiara")
-a.grid(column=0, row=0)
+ttk.Label(frm, text="Typ stožiara").grid(column=0, row=0)
 
 
 def stoziar_changed(index, value, op):
@@ -59,52 +64,49 @@ vStoziar.trace('w', stoziar_changed)
 stoziarCombo = ttk.Combobox(frm, state="readonly", values=list(vypoctove_mapy.stoziare.keys()), textvar=vStoziar, width=25)        
 stoziarCombo.grid(column=1, row=0)
 
-L1x = ttk.Label(frm, text="L1x", width=10, anchor = "e")                      
-L1x.grid(column=3, row=1)
-L1y = ttk.Label(frm, text="L1y")
-L1y.grid(column=3, row=2)
+ttk.Label(frm, text="L1x", width=10, anchor = "e").grid(column=3, row=1)
+ttk.Label(frm, text="L1y", width=10, anchor = "e").grid(column=3, row=2)
 L1x_fv = Text(frm, height=1, width=7)
 L1x_fv.grid(column=4, row=1)
 L1y_fv = Text(frm, height=1, width=7)
 L1y_fv.grid(column=4, row=2)
 
-L2x = ttk.Label(frm, text="L2x", width=10)
-L2x.grid(column=5, row=1)
-L2y = ttk.Label(frm, text="L2y")
-L2y.grid(column=5, row=2)
-L2x_fv = Text(frm, height=1, width=5)
+ttk.Label(frm, text="L2x", width=10, anchor = "e").grid(column=5, row=1)
+ttk.Label(frm, text="L2y", width=10, anchor = "e").grid(column=5, row=2)
+L2x_fv = Text(frm, height=1, width=7)
 L2x_fv.grid(column=6, row=1)
-L2y_fv = Text(frm, height=1, width=5)
+L2y_fv = Text(frm, height=1, width=7)
 L2y_fv.grid(column=6, row=2)
 
-L3x = ttk.Label(frm, text="L3x", width=10)
-L3x.grid(column=7, row=1)
-L3y = ttk.Label(frm, text="L3y")
-L3y.grid(column=7, row=2)
-L3x_fv = Text(frm, height=1, width=5)
+ttk.Label(frm, text="L3x", width=10, anchor = "e").grid(column=7, row=1)
+ttk.Label(frm, text="L3y", width=10, anchor = "e").grid(column=7, row=2)
+L3x_fv = Text(frm, height=1, width=7)
 L3x_fv.grid(column=8, row=1)
-L3y_fv = Text(frm, height=1, width=5)
+L3y_fv = Text(frm, height=1, width=7)
 L3y_fv.grid(column=8, row=2)
 
-ZL1x = ttk.Label(frm, text="ZL1x", width=10)
-ZL1x.grid(column=9, row=1)
-ZL1y = ttk.Label(frm, text="ZL1y")
-ZL1y.grid(column=9, row=2)
-ZL1x_zl = Text(frm, height=1, width=5)
+
+
+ttk.Label(frm, text="ZL1x",  width=10, anchor = "e").grid(column=9, row=1)
+ttk.Label(frm, text="ZL1y",  width=10, anchor = "e").grid(column=9, row=2)
+ZL1x_zl = Text(frm, height=1, width=7)
 ZL1x_zl.grid(column=10, row=1)
-ZL1y_zl = Text(frm, height=1, width=5)
+ZL1y_zl = Text(frm, height=1, width=7)
 ZL1y_zl.grid(column=10, row=2)
 
-ZL2x = ttk.Label(frm, text="ZL2x", width=10)
-ZL2x.grid(column=11, row=1)
-ZL2y = ttk.Label(frm, text="ZL2y")
-ZL2y.grid(column=11, row=2)
-ZL2x_zl = Text(frm, height=1, width=5)
+ttk.Label(frm, text="ZL2x",  width=10, anchor = "e").grid(column=11, row=1)
+ttk.Label(frm, text="ZL2y",  width=10, anchor = "e").grid(column=11, row=2)
+ZL2x_zl = Text(frm, height=1, width=7)
 ZL2x_zl.grid(column=12, row=1)
-ZL2y_zl = Text(frm, height=1, width=5)
+ZL2y_zl = Text(frm, height=1, width=7)
 ZL2y_zl.grid(column=12, row=2)
 
 
+frm.grid_rowconfigure(1, minsize=20)
+frm.grid_rowconfigure(2, minsize=50)
+
+
+################################################################################################################
 #Fazovy vodic
 
 def fv_changed(index, value, op):
@@ -124,34 +126,33 @@ vFv = StringVar()
 vFv.trace('w', fv_changed)
 
 ttk.Label(frm, text="Typ fázového vodiča").grid(column=0, row=4)
+frm.grid_rowconfigure(4, minsize=50)
 
-fvodicCombo = ttk.Combobox(frm, state="readonly", values=list(vypoctove_mapy.vodice.keys()), textvar=vFv)
+fvodicCombo = ttk.Combobox(frm, state="readonly", values=list(vypoctove_mapy.vodice.keys()), textvar=vFv, width=25)
 fvodicCombo.grid(column=1, row=4)
 
-ttk.Label(frm, text="D").grid(column=3, row=5)
-D_fv = Text(frm, height=1, width=5)
+ttk.Label(frm, text="D", width=10, anchor = "e").grid(column=3, row=5)
+D_fv = Text(frm, height=1, width=7)
 D_fv.grid(column=4, row=5)
 
-L1x = ttk.Label(frm, text="dFE")
-L1x.grid(column=5, row=5)
-dFE_fv = Text(frm, height=1, width=5)
+ttk.Label(frm, text="dFE",  width=10, anchor = "e").grid(column=5, row=5)
+dFE_fv = Text(frm, height=1, width=7)
 dFE_fv.grid(column=6, row=5)
 
-L1x = ttk.Label(frm, text="prierez")
-L1x.grid(column=7, row=5)
-prierez_fv = Text(frm, height=1, width=5)
+ttk.Label(frm, text="prierez",  width=10, anchor = "e").grid(column=7, row=5)
+prierez_fv = Text(frm, height=1, width=7)
 prierez_fv.grid(column=8, row=5)
 
-L1x = ttk.Label(frm, text="pomer")
-L1x.grid(column=9, row=5)
-pomer_fv = Text(frm, height=1, width=5)
+ttk.Label(frm, text="pomer",  width=10, anchor = "e").grid(column=9, row=5)
+pomer_fv = Text(frm, height=1, width=7)
 pomer_fv.grid(column=10, row=5)
 
-L1x = ttk.Label(frm, text="td")
-L1x.grid(column=11, row=5)
-td_fv = Text(frm, height=1, width=5)
+ttk.Label(frm, text="td",  width=10, anchor = "e").grid(column=11, row=5)
+td_fv = Text(frm, height=1, width=7)
 td_fv.grid(column=12, row=5)
 
+
+################################################################################################################
 #Zemne lana
 
 def zl_changed(index, value, op):
@@ -171,77 +172,82 @@ vZl = StringVar()
 vZl.trace('w', zl_changed)
 
 ttk.Label(frm, text="Typ vodiča zemného lana").grid(column=0, row=6)
+frm.grid_rowconfigure(6, minsize=50)
 
-zvodicCombo = ttk.Combobox(frm, state="readonly", values=list(vypoctove_mapy.vodice.keys()), textvar=vZl)
+zvodicCombo = ttk.Combobox(frm, state="readonly", values=list(vypoctove_mapy.vodice.keys()), textvar=vZl, width=25)
 zvodicCombo.grid(column=1, row=6)
 
-L1x = ttk.Label(frm, text="D")
-L1x.grid(column=3, row=7)
-D_zl = Text(frm, height=1, width=5)
+ttk.Label(frm, text="D",  width=10, anchor = "e").grid(column=3, row=7)
+D_zl = Text(frm, height=1, width=7)
 D_zl.grid(column=4, row=7)
 
-L1x = ttk.Label(frm, text="dFE")
-L1x.grid(column=5, row=7)
-dFE_zl = Text(frm, height=1, width=5)
+ttk.Label(frm, text="dFE",  width=10, anchor = "e").grid(column=5, row=7)
+dFE_zl = Text(frm, height=1, width=7)
 dFE_zl.grid(column=6, row=7)
 
-L1x = ttk.Label(frm, text="prierez")
-L1x.grid(column=7, row=7)
-prierez_zl = Text(frm, height=1, width=5)
+ttk.Label(frm, text="prierez",  width=10, anchor = "e").grid(column=7, row=7)
+prierez_zl = Text(frm, height=1, width=7)
 prierez_zl.grid(column=8, row=7)
 
-L1x = ttk.Label(frm, text="pomer")
-L1x.grid(column=9, row=7)
-pomer_zl = Text(frm, height=1, width=5)
+ttk.Label(frm, text="pomer",  width=10, anchor = "e").grid(column=9, row=7)
+pomer_zl = Text(frm, height=1, width=7)
 pomer_zl.grid(column=10, row=7)
 
-L1x = ttk.Label(frm, text="td")
-L1x.grid(column=11, row=7)
-td_zl = Text(frm, height=1, width=5)
+ttk.Label(frm, text="td",  width=10, anchor = "e").grid(column=11, row=7)
+td_zl = Text(frm, height=1, width=7)
 td_zl.grid(column=12, row=7)
 
+
+################################################################################################################
 #Zvazok
 
 ttk.Label(frm, text = "Počet vodičov vo zväzku").grid(column=0, row=13)
+frm.grid_rowconfigure(13, minsize=50)
 
-zvazokCombo = ttk.Combobox(frm, state="readonly", values=["1","2","3"])
+zvazokCombo = ttk.Combobox(frm, state="readonly", values=["1","2","3"], width=25)
 zvazokCombo.grid(column=1, row=13)
 
-krok = ttk.Label(frm, text="krok")
-krok.grid(column=3, row=14)
-krok_read = Text(frm, height=1, width=5)
+ttk.Label(frm, text="krok zvazku", width=10, anchor = "e").grid(column=3, row=14)
+krok_read = Text(frm, height=1, width=7)
 krok_read.grid(column=4, row=14)
+frm.grid_rowconfigure(14, minsize=50)
 
+################################################################################################################
 #Minimalna vyska
 
 ttk.Label(frm, text="Minimálna výška vodiča (m)").grid(column=0, row=15)
+frm.grid_rowconfigure(15, minsize=100)
 
-min_vyska = Text(frm, height=1, width=17)
+min_vyska = Text(frm, height=1, width=20)
 min_vyska.grid(column=1, row=15)
 
+
+################################################################################################################
 #Automaticky vypocet
 
 
 ttk.Label(frm, text = "Menený vstupný parameter").grid(column=0, row=17)
+frm.grid_rowconfigure(17, minsize=50)
 
-vstup_param = ttk.Combobox(frm, state="readonly", values=["L1x", "L1y", "L2x", "L2y", "L3x", "L3y", "ZL1x", "ZL1y", "ZL2x", "ZL2y", "D.fv", "dFE.fv", "prierez.fv", "pomer.fv", "td.fv", "D.zl", "dFE.zl", "prierez.zl", "pomer.zl", "td.zl"  ])
+vstup_param = ttk.Combobox(frm, state="readonly", width=25, values=["L1x", "L1y", "L2x", "L2y", "L3x", "L3y", "ZL1x", "ZL1y", "ZL2x", "ZL2y", "D.fv", "dFE.fv", "prierez.fv", "pomer.fv", "td.fv", "D.zl", "dFE.zl", "prierez.zl", "pomer.zl", "td.zl"  ])
 vstup_param.grid(column=1, row=17)
 
-ttk.Label(frm, text="rozsah od").grid(column=3, row=18)
-rozsah_od = Text(frm, height=1, width=5)
+ttk.Label(frm, text="rozsah od",  width=10, anchor = "e").grid(column=3, row=18)
+rozsah_od = Text(frm, height=1, width=7)
 rozsah_od.grid(column=4, row=18)
 
-ttk.Label(frm, text="rozsah do").grid(column=5, row=18)
-rozsah_do = Text(frm, height=1, width=5)
+ttk.Label(frm, text="rozsah do",  width=10, anchor = "e").grid(column=5, row=18)
+rozsah_do = Text(frm, height=1, width=7)
 rozsah_do.grid(column=6, row=18)
 
-
-
-ttk.Label(frm, text="krok rozsahu").grid(column=7, row=18)
-rozsah_krok= Text(frm, height=1, width=5)
+ttk.Label(frm, text="krok rozsahu",  width=10, anchor = "e").grid(column=7, row=18)
+rozsah_krok= Text(frm, height=1, width=7)
 rozsah_krok.grid(column=8, row=18)
 
+frm.grid_rowconfigure(18, minsize=50)
 
+
+################################################################################################################
 
 def vypocitaj_pressed():
     #stoziar = vypoctove_mapy.stoziare[stoziarCombo.get()]   
@@ -269,20 +275,40 @@ def vypocitaj_pressed():
     zvodic.setpomer     (float(pomer_zl.get("1.0",END)))
     zvodic.sett_d       (float(td_zl.get("1.0",END)))
 
-    #krok = krok_read.get()
-    #zvazok = float(zvazokCombo.get())
+    krok = int(krok_read.get("1.0",END))
+    zvazok = float(zvazokCombo.get())
     Z = Aproximovana_metoda.aproximovana_metoda(fvodic, zvodic, stoziar, krok, zvazok)
     Zabc = Kronova_redukcia.kronovaRedukcia(Z)
     Z012 = Zlozkova_sustava.zlozkova_sustava(Zabc)
 
 
 
-vypocitaj = ttk.Button(text="Vypočítaj", command=vypocitaj_pressed).grid()
+
+
+#
+
+
+
+
+    # vysledky = []
+    # for i in range(pocet_krokov): # podla poctu krokov
+    #     Z = Aproximovana_metoda.aproximovana_metoda(fvodic, zvodic, stoziar, krok, zvazok)
+    #     Zabc = Kronova_redukcia.kronovaRedukcia(Z)
+    #     Z012 = Zlozkova_sustava.zlozkova_sustava(Zabc)
+    #     vysledky.append(Z012)
+
+    # zakresli(vysledky, nezavisla, zavisla)
+    # zapisDoExcelu(vysledky)
+    #vysledky[0][0][0].realna_cast()
+
+
+
+ttk.Button(text="Vypočítaj", command=vypocitaj_pressed).grid()
 
 def debug_pressed():
     messagebox.showinfo("debug", stoziarCombo["values"])
 
-debug = ttk.Button(text="Debug", command=debug_pressed).grid()
+#ttk.Button(text="Analyzuj", command=analyzuj_pressed).grid()
 
 
 def table_pressed():
