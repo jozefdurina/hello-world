@@ -297,28 +297,82 @@ def analyzuj_pressed():
 
     meneny = vstup_param.get()
 
-    import numpy as np
+    import numpy
 
-    x = np.arange(od, do , krokr)
+    x = numpy.arange(od, do , krokr)
     y = []
+    y2 = []
  
     for i in x:
-        if meneny=="L1x":
+        if meneny == "L1x":
             stoziar.L1.setX(i)
         elif meneny == "L1y":
             stoziar.L1.setY(i)
-        elif meneny=="D.fv":
+        elif meneny == "L2x":
+            stoziar.L2.setX(i)
+        elif meneny == "L2y":
+            stoziar.L2.setY(i) 
+        elif meneny == "L3x":
+            stoziar.L3.setX(i)
+        elif meneny == "L3y":
+            stoziar.L3.setY(i)
+        elif meneny == "Zl1x":
+            stoziar.ZL1.setX(i)
+        elif meneny == "Zl1y":
+            stoziar.ZL1.setY(i)
+        elif meneny == "Zl2x":
+            stoziar.ZL2.setX(i)
+        elif meneny == "Zl2y":
+            stoziar.ZL2.setY(i)               
+        elif meneny == "D.fv":
             fvodic.setD(i)
+        elif meneny == "dFE.fv":
+            fvodic.setdFE(i)
+        elif meneny == "prierez.fv":
+            fvodic.setprierez(i)
+        elif meneny == "pomer.fv":
+            fvodic.setpomer(i)
+        elif meneny == "t_d.fv":
+            fvodic.sett_d(i)        
+        elif meneny == "D.Zl":
+            zvodic.setD(i)
+        elif meneny == "dFE.Zl":
+            zvodic.setdFE(i)
+        elif meneny == "prierez.Zl":
+            zvodic.setprierez(i)
+        elif meneny == "pomer.Zl":
+            zvodic.setpomer(i)
+        elif meneny == "t_d.Zl":
+            zvodic.sett_d(i)        
 
     
         Z = Aproximovana_metoda.aproximovana_metoda(fvodic, zvodic, stoziar, krokzv, zvazok)
         Zabc = Kronova_redukcia.kronovaRedukcia(Z)
         Z012 = Zlozkova_sustava.zlozkova_sustava(Zabc)
 
-        y.append(np.imag(Z012[0][0]))
-    
-    plt.plot(x, y)
+        y.append(numpy.real(Z012[0][0]))
+        y2.append(numpy.real(Z012[1][1]))
+
+    # plt.plot(x, y)
+    # plt.subplot()
+
+    fig, (ax1, ax2) = plt.subplots(2, sharex=True)
+    fig.suptitle('Aligning x-axis using sharex')
+    ax1.plot(x, y)
+    ax2.plot(x, y2)
     plt.show()
+
+    import xlsxwriter
+
+    workbook  = xlsxwriter.Workbook(fvodicCombo.get() + ' ' + zvodicCombo.get() + '.xlsx')
+    worksheet = workbook.add_worksheet()
+
+    for i in range(len(x)):
+        worksheet.write(i, 0, x[i])
+        worksheet.write(i, 1, y[i])
+
+
+    workbook.close()
 
 
 
