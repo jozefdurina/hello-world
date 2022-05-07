@@ -2,8 +2,8 @@ import math
 
 class Vodic: 
     def __init__(self, D, RAC20, dFE, prierez, pomer, E, rdc20, t_d):
-        self.D = D              #v mm
-        self.RAC20 = RAC20
+        self.D = D              #priemer v mm
+        self.RAC20 = RAC20      
         self.dFE = dFE
         self.prierez = prierez
         self.pomer = pomer
@@ -40,7 +40,7 @@ class XY:
         self.x = x
         self.y = y
 
-    def vzdialenost(self, bod):
+    def vzd(self, bod):
         return math.sqrt((self.x-bod.x)**2 + (self.y-bod.y)**2)
 
     def setX(self, x):
@@ -56,16 +56,17 @@ class Stoziar:
         self.L3 = L3
         self.ZL1 = ZL1
         self.ZL2 = ZL2
+        self.prepocitaj_m_vzd()
 
+
+    def prepocitaj_m_vzd(self):
         self.m_vzd = [
-            [ 0               , L1 .vzdialenost(L2), L1 .vzdialenost(L3), L1 .vzdialenost(ZL1), L1 .vzdialenost(ZL2)],
-            [ L2.vzdialenost(L1), 0                , L2 .vzdialenost(L3), L2 .vzdialenost(ZL1), L2 .vzdialenost(ZL2)],
-            [ L3.vzdialenost(L1), L3 .vzdialenost(L2), 0                , L3 .vzdialenost(ZL1), L3 .vzdialenost(ZL2)],
-            [ZL1.vzdialenost(L1), ZL1.vzdialenost(L2), ZL1.vzdialenost(L3), 0                 , ZL1.vzdialenost(ZL2)],
-            [ZL2.vzdialenost(L1), ZL2.vzdialenost(L2), ZL2.vzdialenost(L3), ZL2.vzdialenost(ZL1), 0                 ],
+            [ 0               , self.L1.vzd(self.L2), self.L2.vzd(self.L3), self.L1.vzd(self.ZL1), self.L1.vzd(self.ZL2)],
+            [ self.L2.vzd(self.L1), 0                , self.L2 .vzd(self.L3), self.L2.vzd(self.ZL1), self.L2.vzd(self.ZL2)],
+            [ self.L3.vzd(self.L1), self.L3 .vzd(self.L2), 0                , self.L3.vzd(self.ZL1), self.L3.vzd(self.ZL2)],
+            [self.ZL1.vzd(self.L1), self.ZL1.vzd(self.L2), self.ZL1.vzd(self.L3), 0                 , self.ZL1.vzd(self.ZL2)],
+            [self.ZL2.vzd(self.L1), self.ZL2.vzd(self.L2), self.ZL2.vzd(self.L3), self.ZL2.vzd(self.ZL1), 0                 ],
         ]
-
-
 
 
 

@@ -284,6 +284,8 @@ def ziskaj_vstupy():
 def vypocitaj_pressed():
     stoziar, fvodic, zvodic, krokzv, zvazok = ziskaj_vstupy()    
 
+    stoziar.prepocitaj_m_vzd()
+
     Z = Aproximovana_metoda.aproximovana_metoda(fvodic, zvodic, stoziar, krokzv, zvazok)
     Zabc = Kronova_redukcia.kronovaRedukcia(Z)
     Z012 = Zlozkova_sustava.zlozkova_sustava(Zabc)
@@ -304,13 +306,14 @@ def analyzuj_pressed():
  
     for i in x:
         if meneny=="L1x":
-            stoziar.L1.setX(i)
+            stoziar.L1.setX(i)            
         elif meneny == "L1y":
             stoziar.L1.setY(i)
         elif meneny=="D.fv":
             fvodic.setD(i)
 
-    
+        stoziar.prepocitaj_m_vzd()
+
         Z = Aproximovana_metoda.aproximovana_metoda(fvodic, zvodic, stoziar, krokzv, zvazok)
         Zabc = Kronova_redukcia.kronovaRedukcia(Z)
         Z012 = Zlozkova_sustava.zlozkova_sustava(Zabc)
