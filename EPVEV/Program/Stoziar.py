@@ -24,7 +24,13 @@ class Stoziar:
         self.prepocitaj_m_vzd()
 
     def rozmerMaticePreVypocet(self):
-        return 3 * len(self.systemy) + len(self.zemneLana)
+        return self.pocetFazvychVodicov() + self.pocetZemnychLan()
+
+    def pocetFazvychVodicov(self):
+        return 3 * len(self.systemy)
+
+    def pocetZemnychLan(self):
+        return len(self.zemneLana)
 
     def prepocitaj_m_vzd(self):     
         poradie = []    #poradie suradnic bodov pre vypocet matice vzdialenosti

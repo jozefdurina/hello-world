@@ -1,13 +1,15 @@
 import math
 
 class Vodic: 
-    def __init__(self, D, RAC20, ksi, pocet_vo_zvazku):
+    def __init__(self, D, RDC20, ksi, pocet_vo_zvazku):
         self.D = D                  #priemer v mm
         self.r = D/2                #polomer v mm
-        self.RAC20 = RAC20          #jednotkovy odpor na km vodica       
+        self.RAC20 = RDC20          #jednotkovy odpor na km vodica       
         self.ksi = ksi              #parameter lana [bezrozmerny]
         self.ksi_r = ksi*self.r     #tato hodnota postupuje do dalsieho vypoctu
         self.poc_vo_zv = pocet_vo_zvazku
+        
+        self.set_krokzvazku(0.4)    #defaultna hodnota pre krok zvazku pre zvazkovy Vodic je 0.4 metra
 
     def set_krokzvazku(self, a):    #a -krok zvazku v metroch
         if self.poc_vo_zv > 1:
