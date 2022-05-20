@@ -10,12 +10,13 @@ from Vodic import Vodic
 from Stoziar import System, ZemneLano, Stoziar
 import Aproximovana_metoda
 import Kronova_redukcia
+import Zlozkova_sustava
 
 
 
 vodice = {                                           ##KSI TREBA ZMENIT!!! - NEPLATNE
     "476-AL1/62-ST1A"     : Vodic(D=30.2, RDC20=0.0608, ksi=0.8, pocet_vo_zvazku=3),
-    "243-AL1/39-ST1A"     : Vodic(D=21.8, RDC20=0.1188, ksi=0.8, pocet_vo_zvazku=1),
+    "243-AL1/39-ST1A"     : Vodic(D=21.8, RDC20=0.1188, ksi=0.82, pocet_vo_zvazku=1),
     "121-AL4/66-A20SA"    : Vodic(D=18.2, RDC20=0.229, ksi=0.8, pocet_vo_zvazku=1),
     "178-AL3/53-A20SA"    : Vodic(D=20.4, RDC20=0.167, ksi=0.8, pocet_vo_zvazku=1),
 }
@@ -88,7 +89,15 @@ stoziare = {
         ],
         vodice["243-AL1/39-ST1A"],  #typ fazovych vodicov
         vodice["121-AL4/66-A20SA"],  #typ zemneho/zemnych vodica/vodicov
-    )
+    ),
+   # "2x400kV Donau N+0 bez ZL skuska" : Stoziar (
+    #    [
+     #       System ( XY (-8.25, 18.24 ), XY (-14.7, 18.24 ), XY ( -10.8, 29.45 ) ),
+      #      System ( XY ( 8.25, 18.24 ), XY ( 14.7, 18.24 ), XY (  10.8, 29.45 ) ), 
+       # ], 
+        
+        #vodice["476-AL1/62-ST1A"],  #typ fazovych vodicov
+   # ),
 }
 
 root = Tk()
@@ -119,8 +128,8 @@ def stoziar_changed(index, value, op):
 
         popis += str(i+1) + ". systém:\n"
         popis += "L1=[" + str(stoziar.systemy[i].L1.x) + ", " + str(stoziar.systemy[i].L1.y) + "]\n" 
-        popis += "L2=[" + str(stoziar.systemy[i].L1.x) + ", " + str(stoziar.systemy[i].L1.y) + "]\n"
-        popis += "L3=[" + str(stoziar.systemy[i].L1.x) + ", " + str(stoziar.systemy[i].L1.y) + "]\n"
+        popis += "L2=[" + str(stoziar.systemy[i].L2.x) + ", " + str(stoziar.systemy[i].L2.y) + "]\n"
+        popis += "L3=[" + str(stoziar.systemy[i].L3.x) + ", " + str(stoziar.systemy[i].L3.y) + "]\n"
 
     popis += "Zemné laná: \n"
 
@@ -128,10 +137,12 @@ def stoziar_changed(index, value, op):
         values.append("ZL" + str(i+1) + " x")
         values.append("ZL" + str(i+1) + " y")
 
-        popis += "ZL" + str(i+1) + "=[" + str(stoziar.zemneLana[i].ZL.x) + ", " + str(stoziar.zemneLana[i].ZL.y) + "]\n"
+        popis += "ZL" + str(i+1) + "=[" + str(stoziar.zemneLana[i].ZL.x) + ", " + str(stoziar.zemneLana[i].ZL.y) + "]\n"    
 
     if stoziar.fvodic.poc_vo_zv > 1:
         values.append("krok zväzku")
+
+    values.append("priehyb")
 
     vstup_param['values']=values
 
@@ -216,16 +227,23 @@ def analyzuj_pressed():
         #krok zvazku pre 400kV
         elif meneny == "krok zväzku":
             stoziar.fvodic.set_krokzvazku(i)
-        
+        elif meneny == "priehyb":
+            stoziar.posunDole(i*2/3)    #priemerna vyska vodica sa pocita ako 2/3 z priehybu 
+
         stoziar.prepocitaj_m_vzd()  #nutne
+        stoziar.prepocitaj_m_vzd_obrazov() #nutne
 
         Z = Aproximovana_metoda.aproximovana_metoda(stoziar)
         Zabc = Kronova_redukcia.kronovaRedukcia(Z, stoziar)
-        #Z012 = Zlozkova_sustava.zlozkova_sustava(Zabc)
+        Z012 = Zlozkova_sustava.zlozkova_sustava(Zabc)
 
         y1.append(numpy.real(Zabc[0][0])) 
         y2.append(numpy.real(Zabc[1][1]))
         y3.append(numpy.real(Zabc[2][2]))
+
+    #plt . xlabel ( 'Smarts' ) 
+    #plt . ylabel ( 'Pravdepodobnosť' ) 
+    #plt . titul ( 'Histogram IQ' ) 
 
     fig, (ax1, ax2, ax3) = plt.subplots(3, sharex=True)
     fig.suptitle('Aligning x-axis using sharex')
@@ -234,18 +252,34 @@ def analyzuj_pressed():
     ax3.plot(x, y3)
     plt.show()
 
-    #import xlsxwriter
+    
 
-    #workbook  = xlsxwriter.Workbook(fvodicCombo.get() + ' ' + zvodicCombo.get() + '.xlsx')
-    #worksheet = workbook.add_worksheet()
+def vypocitaj_pressed():
 
-    # for i in range(len(x)):
-    #     worksheet.write(i, 0, x[i])
-    #     worksheet.write(i, 1, y[i])
+    stoziar = copy.deepcopy(stoziare[stoziarCombo.get()])
+    Z = Aproximovana_metoda.aproximovana_metoda(stoziar)
+    Zabc = Kronova_redukcia.kronovaRedukcia(Z, stoziar)
+    Z012 = Zlozkova_sustava.zlozkova_sustava(Zabc)
+
+    import xlsxwriter
+
+    workbook  = xlsxwriter.Workbook(stoziarCombo.get() +'.xlsx')
+    worksheet = workbook.add_worksheet()
+
+    for i in range(stoziar.pocetFazvychVodicov()):
+        worksheet.write(1+i, 1, numpy.real(Z012[i][0]))
+        worksheet.write(1+i, 2, numpy.imag(Z012[i][0]))
+        worksheet.write(1+i, 3, str(numpy.real(Z012[i][0])) + "+" + str(numpy.imag(Z012[i][0])) + "i" )
+
+    worksheet.write(9, 0, "Matica Pabc")
+    for i in range(len(Zabc)):
+        for j in range(len(Zabc[i])):
+            worksheet.write(10+i, j, str(numpy.real(Zabc[i][j])) + "+" + str(numpy.imag(Zabc[i][j])) + "i" )
+
+    workbook.close()
 
 
-
-
+ttk.Button(text="Vypocitaj", command=vypocitaj_pressed).grid()
 ttk.Button(text="Analyzuj", command=analyzuj_pressed).grid()
 
 

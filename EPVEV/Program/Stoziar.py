@@ -1,3 +1,4 @@
+import math
 from XY import XY
 from Vodic import Vodic
 
@@ -22,6 +23,7 @@ class Stoziar:
         self.fvodic = fvodic
         self.zvodic = zvodic
         self.prepocitaj_m_vzd()
+        self.prepocitaj_m_vzd_obrazov()
 
     def rozmerMaticePreVypocet(self):
         return self.pocetFazvychVodicov() + self.pocetZemnychLan()
@@ -31,6 +33,22 @@ class Stoziar:
 
     def pocetZemnychLan(self):
         return len(self.zemneLana)
+
+    #funkcia posunie fazove vodice a zemne lana o definovanyu vzdialenost v smere osi y
+    #sluzi to na vypocet nielen stoziara, ale celeho vedenia, kde priemerna vyska vodicov 
+    # sa znizuje kvoli priehybom vodicov medzi stoziarmi - do vypoctu teda vstupuje "ako keby" znizeny stoziar 
+    #POZOR - bez prepoctu matic vzdialenosti a matic komplexnych vzdialenosti obrazov
+    #musi sa zavolat po dokonceni uprav Stoziara aj prepocty oboch matic
+    def posunDole(self, posun:int):
+        for i in self.systemy:
+            i.L1.y -= posun
+            i.L2.y -= posun
+            i.L3.y -= posun
+            
+        for i in self.zemneLana:
+            i.ZL.y -= posun
+
+        #self.prepocitaj_m_vzd_obrazov() # prepocet matic vzdialenost a vzdialenosti obrazov je na pouzivatelovi
 
     def prepocitaj_m_vzd(self):     
         poradie = []    #poradie suradnic bodov pre vypocet matice vzdialenosti
@@ -55,3 +73,25 @@ class Stoziar:
 
         return 
 
+    def prepocitaj_m_vzd_obrazov(self):     
+        poradie = []    #poradie suradnic bodov pre vypocet matice vzdialenosti
+
+        for i in range(len(self.systemy)):
+            poradie.append(self.systemy[i].L1)
+            poradie.append(self.systemy[i].L2)
+            poradie.append(self.systemy[i].L3)
+
+        for i in range(len(self.zemneLana)):
+            poradie.append(self.zemneLana[i].ZL)            
+
+        self.m_vzd_obrazov = []
+
+        for i in range(len(poradie)):
+            riadok = []
+            for j in range(len(poradie)):
+                vzd_obrazu = poradie[i].vzd_obrazu(poradie[j])
+                riadok.append(vzd_obrazu)
+
+            self.m_vzd_obrazov.append(riadok)   
+
+        return 
