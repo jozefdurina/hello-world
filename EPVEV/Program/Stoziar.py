@@ -17,7 +17,7 @@ class ZemneLano:
 class Stoziar: 
     #systemy - zoznam systemov na stoziari
     #zemne_lana - zoznam zemnych lan na stoziari
-    def __init__(self, systemy, zemneLana, fvodic:Vodic, zvodic:Vodic):    
+    def __init__(self, systemy, zemneLana, fvodic, zvodic:Vodic):    
         self.systemy = systemy      #systemy
         self.zemneLana = zemneLana        #zemne lana
         self.fvodic = fvodic

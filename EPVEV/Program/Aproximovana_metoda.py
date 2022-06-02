@@ -4,13 +4,12 @@ from Stoziar import Stoziar
 
 def aproximovana_metoda(stoziar:Stoziar):
 
-    E0=8.8542*10**-9  #[F/km] 
+    E0=8.8542e-9  #[F/km] 
     Rg = 0.049300   #[Ω.km−1]
-    mi0 = 4*math.pi*10**-4 #[H/km]
+    mi0 = math.pi*4e-4 #[H/km]
     dg = 796.039 #[m]
-    Rik = Rg    #[Ω/km]
-    Rii = stoziar.fvodic.RAC20 + Rg
-    Rzz = stoziar.zvodic.RAC20 + Rg
+    Rii = stoziar.fvodic.RDC20 + Rg
+    Rzz = stoziar.zvodic.RDC20 + Rg
   
 
     rozmer = stoziar.rozmerMaticePreVypocet()
@@ -31,49 +30,24 @@ def aproximovana_metoda(stoziar:Stoziar):
             if i==k:                
                 if i<(stoziar.pocetFazvychVodicov()):
                     R[i][i] = Rii
-                    L[i][i] = (mi0/(2*math.pi)) * math.log((stoziar.fvodic.ksi_r), math.e)   #zistit ci treba r
+                    L[i][i] = (mi0/(2*math.pi)) * math.log(dg/stoziar.fvodic.ksi_r) #zistit ci treba r
                     Z[i][i] = Rii+1j*L[i][i]*100*math.pi
-                    P[i][i] = (1/(2*math.pi*E0))*np.log((2*vyskyVodicov[i]/stoziar.fvodic.r))
+                    P[i][i] = (1/(2*math.pi*E0))*np.log(abs((2*vyskyVodicov[i])/stoziar.fvodic.get_r()))
                 else:
                     R[i][i] = Rzz
-                    L[i][i] = (mi0/(2*math.pi)) * math.log(dg/(stoziar.zvodic.ksi_r ), math.e)
+                    L[i][i] = (mi0/(2*math.pi)) * math.log(dg/stoziar.zvodic.ksi_r)
                     Z[i][i] = Rzz+1j*L[i][i]*100*math.pi
-                    P[i][i] = (1/(2*math.pi*E0))*math.log((2*vyskyVodicov[i]/stoziar.zvodic.r))
+                    P[i][i] = (1/(2*math.pi*E0))*np.log(abs((2*vyskyVodicov[i])/stoziar.zvodic.get_r()))
 
             else:
-                R[i][k] = Rik 
-                L[i][k] = (mi0/(2*math.pi)) * math.log(dg/stoziar.m_vzd[i][k], math.e)                
-                Z[i][k] = Rik+1j*L[i][k]*100*math.pi
-                P[i][k] = (1/(2*math.pi*E0))*np.log((stoziar.m_vzd_obrazov[i][k]/stoziar.m_vzd[i][k]))
+                R[i][k] = Rg
+                L[i][k] = (mi0/(2*math.pi)) * math.log(dg/stoziar.m_vzd[i][k])                
+                Z[i][k] = Rg+1j*L[i][k]*100*math.pi
+                P[i][k] = (1/(2*math.pi*E0))*np.log(abs(stoziar.m_vzd_obrazov[i][k]/stoziar.m_vzd[i][k]))
 
     C = np.linalg.inv(P)
 
-    print("-------------------------------------------------------------------------------------------------------------------------------")
-    print("Matica R\n")
-    vypisMatice(R)
+    return R, L, C, Z
 
-    print("-------------------------------------------------------------------------------------------------------------------------------")
-    print("Matica L\n")
-    vypisMatice(L)
-
-    print("-------------------------------------------------------------------------------------------------------------------------------")
-    print("Matica P\n")
-    vypisMatice(P)
-
-    print("-------------------------------------------------------------------------------------------------------------------------------")
-    print("Matica C\n")
-    vypisMatice(C)
-
-
-    print("-------------------------------------------------------------------------------------------------------------------------------")
-    print("Matica Z\n")
-    vypisMatice(Z)
-
-    return Z
-
-def vypisMatice(M): # M je matica - definovana ako list listov
-    for i in range(len(M)):
-        print(M[i])    
-    # print("\n")    
 
 
