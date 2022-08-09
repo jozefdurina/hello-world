@@ -30,20 +30,20 @@ def aproximovana_metoda(stoziar:Stoziar):
             if i==k:                
                 if i<(stoziar.pocetFazvychVodicov()):
                     R[i][i] = Rii
-                    L[i][i] = (mi0/(2*math.pi)) * math.log(dg/stoziar.fvodic.ksi_r) #zistit ci treba r
+                    L[i][i] = ((mi0/(2*math.pi)) * math.log(dg/stoziar.fvodic.ksi_r))*1000 #zistit ci treba r
                     Z[i][i] = Rii+1j*L[i][i]*100*math.pi
-                    P[i][i] = (1/(2*math.pi*E0))*np.log(abs((2*vyskyVodicov[i])/stoziar.fvodic.get_r()))
+                    P[i][i] = ((1/(2*math.pi*E0))*np.log(abs((2*vyskyVodicov[i])/stoziar.fvodic.get_r())))*10e-10
                 else:
                     R[i][i] = Rzz
-                    L[i][i] = (mi0/(2*math.pi)) * math.log(dg/stoziar.zvodic.ksi_r)
+                    L[i][i] = ((mi0/(2*math.pi)) * math.log(dg/stoziar.zvodic.ksi_r))*1000
                     Z[i][i] = Rzz+1j*L[i][i]*100*math.pi
-                    P[i][i] = (1/(2*math.pi*E0))*np.log(abs((2*vyskyVodicov[i])/stoziar.zvodic.get_r()))
+                    P[i][i] = ((1/(2*math.pi*E0))*np.log(abs((2*vyskyVodicov[i])/stoziar.zvodic.get_r())))*10e-10
 
             else:
                 R[i][k] = Rg
-                L[i][k] = (mi0/(2*math.pi)) * math.log(dg/stoziar.m_vzd[i][k])                
+                L[i][k] = ((mi0/(2*math.pi)) * math.log(dg/stoziar.m_vzd[i][k]))*1000                
                 Z[i][k] = Rg+1j*L[i][k]*100*math.pi
-                P[i][k] = (1/(2*math.pi*E0))*np.log(abs(stoziar.m_vzd_obrazov[i][k]/stoziar.m_vzd[i][k]))
+                P[i][k] = ((1/(2*math.pi*E0))*np.log(abs(stoziar.m_vzd_obrazov[i][k]/stoziar.m_vzd[i][k])))*10e-10
 
     C = np.linalg.inv(P)
 

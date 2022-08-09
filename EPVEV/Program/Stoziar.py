@@ -34,21 +34,25 @@ class Stoziar:
     def pocetZemnychLan(self):
         return len(self.zemneLana)
 
-    #funkcia posunie fazove vodice a zemne lana o definovanyu vzdialenost v smere osi y
+    """     #funkcia posunie fazove vodice a zemne lana o definovanyu vzdialenost v smere osi y
     #sluzi to na vypocet nielen stoziara, ale celeho vedenia, kde priemerna vyska vodicov 
     # sa znizuje kvoli priehybom vodicov medzi stoziarmi - do vypoctu teda vstupuje "ako keby" znizeny stoziar 
     #POZOR - bez prepoctu matic vzdialenosti a matic komplexnych vzdialenosti obrazov
     #musi sa zavolat po dokonceni uprav Stoziara aj prepocty oboch matic
-    def posunDole(self, posun:int):
+    def posunDoleFV(self, posun:int):
         for i in self.systemy:
             i.L1.y -= posun
             i.L2.y -= posun
             i.L3.y -= posun
-            
+
+        #self.prepocitaj_m_vzd_obrazov() # prepocet matic vzdialenost a vzdialenosti obrazov je na pouzivatelovi
+
+    def posunDoleZL(self, posun:int):            
         for i in self.zemneLana:
             i.ZL.y -= posun
 
         #self.prepocitaj_m_vzd_obrazov() # prepocet matic vzdialenost a vzdialenosti obrazov je na pouzivatelovi
+    """
 
     def prepocitaj_m_vzd(self):     
         poradie = []    #poradie suradnic bodov pre vypocet matice vzdialenosti
